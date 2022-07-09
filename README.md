@@ -1,0 +1,2 @@
+# BadForScience
+a philosophical paper
