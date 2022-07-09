@@ -1,0 +1,63 @@
+% To do:
+% ------
+% - Write a title and abstract.
+% - Write an outline.
+% - Fill in the outline.
+% - Publish.
+% - Wait for the call from Stockholm.
+
+% Style notes:
+% ------------
+% - Uhhh.
+
+\documentclass[modern]{aastex631}
+\usepackage[utf8]{inputenc}
+
+% Hogg typesetting issues
+\addtolength{\textheight}{0.8in}
+\addtolength{\topmargin}{-0.4in}
+\setlength{\parindent}{1.2\baselineskip} % seriously
+\frenchspacing\raggedbottom\sloppy\sloppypar
+
+% Math issues
+\newcommand{\teff}{T_{\mathrm{eff}}}
+\newcommand{\logg}{\log g}
+\newcommand{\feh}{[\mathrm{Fe}/\mathrm{H}]}
+
+\shorttitle{machine learning and science}
+\shortauthors{hogg}
+
+\begin{document}
+
+\title{Is machine learning good or bad for science?}
+
+\author{David W. Hogg}
+
+\begin{abstract}\noindent % seriously!
+  Machine-learning methods are having a huge impact across the natural sciences.
+  Advances have come from classification, regression, dimensionality reduction, clustering, and many other things.
+  However, machine learning has a strong ontology---for machine-learning methods, only the data exist---and a strong epistemology---models are generally considered good if they perform well on held-out training data---and these philosophies are in strong conflict from standard practice and philosophy in the natural sciences.
+  Here I identify uses for machine learning in the natural sciences where the ontology and epistemology are valuable, and will help scientific projects.
+  I also call out uses for machine learning that are not a good idea.
+  In particular, there are a lot of reasons to be concerned about the use of complex machine-learning models to emulate physical (or first-principles) simulations.
+  Finally, I conclude by noting that there are places in scientific investigations in which the choice to use a machine-learning method is the most conservative possible choice.
+  These places are generally in projects that look like causal inferences, where the machine-learning method is used to model the possible effects of confounders.
+  I illustrate the above points with examples from astrophysics.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+Hello World!
+
+\section{What is machine learning?}\label{sec:what}
+
+\section{Stuff in between}\label{sec:stuff}
+
+\section{Discussion}\label{sec:discussion}
+
+Hello World!
+
+\bibliography{sample631}{}
+\bibliographystyle{aasjournal}
+
+\end{document}
