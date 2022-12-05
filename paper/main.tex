@@ -24,34 +24,103 @@
 \newcommand{\logg}{\log g}
 \newcommand{\feh}{[\mathrm{Fe}/\mathrm{H}]}
 
-\shorttitle{machine learning and science}
+\shorttitle{machine learning and astrophysics}
 \shortauthors{hogg}
 
 \begin{document}
 
-\title{Is machine learning good or bad for science?}
+\title{Is machine learning good or bad for astrophysics?}
 
 \author{David W. Hogg}
 
 \begin{abstract}\noindent % seriously!
-  Machine-learning methods are having a huge impact across the natural sciences.
+  Machine-learning methods are having a huge impact across the sciences.
   Advances have come from classification, regression, dimensionality reduction, clustering, and many other things.
-  However, machine learning has a strong ontology---for machine-learning methods, only the data exist---and a strong epistemology---models are generally considered good if they perform well on held-out training data---and these philosophies are in strong conflict from standard practice and philosophy in the natural sciences.
-  Here I identify uses for machine learning in the natural sciences where the ontology and epistemology are valuable, and will help scientific projects.
+  However, machine learning has a strong ontology---for machine-learning methods, only the data exist---and a strong epistemology---models are generally considered good if they perform well on held-out training data---and these philosophies are in strong conflict from standard practice and philosophy in the natural sciences, and astrophysics in particular.
+  Here I identify uses for machine learning in astrophysics where the ontology and epistemology (and computational performance) are valuable.
   I also call out uses for machine learning that are not a good idea.
-  In particular, there are a lot of reasons to be concerned about the use of complex machine-learning models to emulate physical (or first-principles) simulations.
-  Finally, I conclude by noting that there are places in scientific investigations in which the choice to use a machine-learning method is the most conservative possible choice.
-  These places are generally in projects that look like causal inferences, where the machine-learning method is used to model the possible effects of confounders.
-  I illustrate the above points with examples from astrophysics.
+  In particular, there are a lot of reasons to be concerned about the use of complex machine-learning models to emulate physical (or first-principles) simulations, for epistemological and confirmation-bias reasons.
+  I conclude by noting that there are places in which the choice to use a machine-learning method is (oddly) the most conservative possible choice.
+  These places are generally in projects that look like causal inferences, where the machine-learning method is used to model the possible effects of confounders, such as foregrounds, backgrounds, or tellurics.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
 
-Hello World!
+It is an understatement to say that machine learning---and in particular deep learning---is having a big impact across the sciences.
+There are hundreds of papers per year on machine-learning methods in astrophysics alone.
+However, when we ask what astrophysics breakthroughs have been enabled by this influx of new tools and methods, there isn't a long list.
+The success of the AlphaFold projects in protein structure are often raised.
+But these are successes in a biological field, not astrophysics, and in an area where performance is valued over understanding.
+Here in astrophysics we care almost exclusively about understanding.
+
+That is, astrophysics is an academic discipline, concerned with understanding the physical world, and naturally occurring mechanisms in play in that world.
+We make progress by discovering new kinds of objects and phenomena, and explaining (and, even better, predicting) new kinds of objects and phenomena.
+Our most successful investigations are judged in terms of the questions they answer, or the new questions they raise, or both.
+How can machine learning contribute to this mission?
+
+I mentioned the word ``performance'' above.
+One of the key ideas of machine-learning methods is that they are usually judged in terms of their performance, or their ability to predict or explain new data.
+That's different, philosophically, from what's traditionally important in astrophysics.
+When the expansion of the Universe was discovered (\citealt{expansion}), the result was not (primarily) judged on the basis of its ability to predict new data.
+That is, the investigators were not mainly trying to predict the Doppler shifts of held-out galaxies!
+They were trying to measure a property of the Universe, traced by galaxies.
+And their result answered some important questions, and raised new ones.
+Of course the expansion result has lasted in part because it \emph{does} make new predictions for new data, and very accurate predictions!
+So it isn't irrelevant that the performance of the hypothesis is good.
+However, there is some disconnect between how we assess a machine-learning method and how we assess a scientific contribution.
+
+I don't want to sound anti-technological however.
+Machine learning is a new and productive technology.
+We should use it!
+Astrophysics moves forward through technological progress, starting with Galileo (CITE).
+In my own lifetime, the most remarkable technological advance was (probably) the change from photographic plates to charge-coupled devices (CCDs).
+In just a few years, almost every telescope and spectrograph in the world switched from a photographic focal plane to a CCD focal plane, and immediately there were new discoveries.
+That's a case in which new technology immediately translated into new discoveries.
+That hasn't been nearly so true with machine learning, and (I note with respect), it is way easier to incorporate machine learning into your workflow than to incorporate CCDs into your optical path.
+
+I am both a developer of machine-learning methods, and a skeptic who thinks they should only rarely be used.
+That said, there are reasons that we absolutely must use machine learning in the near future of astrophysics.
+And there are indeed past successes of machine learning that might be invisible to many.
+I'll try to speak to both of these points below.
 
 \section{What is machine learning?}\label{sec:what}
 
-\section{Stuff in between}\label{sec:stuff}
+There is a vague definition of machine learning in terms of data and capacity:
+A method is a machine-learning method if its capability increases (hopefully dramatically) as the machine sees more data (HOGG GET THIS MORE PRECISE AND CITE).
+In some sense this is true of any measurement process:
+The measurement improves as more data come in!
+So if we are going to be more specific, we'd like the model capacity or capability to improve faster (in some sense) than something like the square root of the increment in data.
+
+There is a more specific definition of machine learning in terms of specific methods:
+Whenever a neural network or a Gaussian process is in play, machine learning is in play.
+But when the former definition is too broad, the latter is almost always too narrow.
+For example, principal components analysis (PCA) is a workhorse in astronomy since way back (for example, \citealt{pcaredshift}), and PCA is an old, and simple, but definitely machine-learning, method.
+
+Supervised and unsupervised.
+
+Classification, regression.
+
+Dimensionality reduction, clustering, density estimation.
+
+\section{Why do we need machine learning?}
+
+Label transfer.
+
+Speeding up decisions.
+
+Modeling nuisances.
+
+Classification?
+
+Speeding up simulations?
+
+The short summary is that we need machine learning; we can't live without it.
+
+\section{When is machine learning a bad idea?}
+
+Adversarial attacks argument.
+
+\section{When is machine learning the conservative choice?}
 
 \section{Discussion}\label{sec:discussion}
 
