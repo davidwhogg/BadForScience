@@ -30,7 +30,7 @@
 
 \begin{document}
 
-\title{Is machine learning good or bad for astrophysics?}
+\title{Is deep learning good or bad for astrophysics?}
 
 \author[0000-0003-2866-9403]{David W. Hogg}
 \affiliation{Center for Cosmology and Particle Physics, Department of Physics, New York University, 726~Broadway, New~York,~NY 10003, USA}
@@ -38,30 +38,34 @@
 \affiliation{Flatiron Institute, 162 Fifth Avenue, New~York,~NY 10010, USA}
 
 \begin{abstract}\noindent % seriously!
-  Machine-learning methods are having a huge impact across the sciences.
-  Advances have come from classification, regression, dimensionality reduction, clustering, and many other things.
-  However, machine learning has a strong ontology, in which only the data exist, and a strong epistemology, in which a model is considered good if it performs well on held-out training data.
+  Deep-learning methods are having a huge impact across the sciences.
+  Advances have come from classification, regression, dimensionality reduction, clustering(?), and many other things.
+  However, deep learning (and machine learning more generally) has a strong ontology, in which only the data exist, and a strong epistemology, in which a model is considered good if (and only if) it performs well on held-out data that is similar to the training data.
   These philosophies are in strong conflict from standard practice and philosophy in the natural sciences, and astrophysics in particular.
-  Here I identify uses for machine learning in astrophysics where the ontology and epistemology (and computational performance) are valuable.
-  I also call out uses for machine learning that are not a good idea.
+  Here I identify uses for deep learning in astrophysics where the ontology and epistemology (and computational performance) are valuable.
+  I also call out uses for deep learning that are not a good idea.
   In particular, there are a lot of reasons to be concerned about the use of complex machine-learning models to emulate physical (or first-principles) simulations, for epistemological and confirmation-bias reasons.
-  I conclude by noting that there are places in which the choice to use a machine-learning method is (oddly) the most conservative possible choice:
-  When a project makes use of a machine-learning method to model the possible effects of nuisances, such as foregrounds, backgrounds, or tellurics, the immense flexibility and loose philosophy in fact make the project more trustworthy.
+  On the other hand, there are places in which the introduction of deep learning can make a project more scientifically conservative:
+  When a flexible machine-learning model is used to represent the effects of nuisances, such as foregrounds, backgrounds, or tellurics, the model capacity and loose philosophy of the method can in fact make the project more trustworthy.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
 
-It is an understatement to say that machine learning---and in particular deep learning---is having a big impact across the sciences.
-There are hundreds of papers per year on machine-learning methods in astrophysics alone.
-However, when we ask what breakthroughs have been enabled by this influx of new tools and methods, there isn't a long list.
+It is an understatement to say that deep learning is having a big impact across the sciences.
+There are hundreds of papers per year now on deep-learning methods in astrophysics alone.
+However, when we ask what scientific breakthroughs have been enabled by this influx of new tools and methods, there isn't a long list.
 The success of the AlphaFold projects in protein structure (\citealt{alphafold}) are often raised.
 But these are successes in a biological or medical field, not astrophysics, and in a very specific challenge-problem setting in which performance is valued over understanding.
 Here in astrophysics we care almost exclusively about understanding.
 
-That is, astrophysics is an academic discipline, concerned with understanding the physical world, and naturally occurring mechanisms in play in that world.
+If we broaden our scope from deep learning to machine learning more generally, we can point to very important contributions of machine learning to astrophysics.
+Kepler discoveries
+PCA and, eg, SDSS redshift system
+
+Astrophysics is an academic discipline, concerned with understanding the physical world, and naturally occurring mechanisms in play in that world.
 We make progress by discovering new kinds of objects and phenomena, and explaining (and, even better, predicting) new kinds of objects and phenomena.
 Our most successful investigations are judged in terms of the questions they answer, or the new questions they raise, or both.
-How can machine learning contribute to this mission?
+The question here is: How can deep learning contribute to this mission?
 
 I mentioned the word ``performance'' above.
 One of the key ideas of machine-learning methods is that they are usually judged in terms of their performance, or their ability to predict or explain new data.
@@ -109,6 +113,8 @@ Classification, regression.
 
 Dimensionality reduction, clustering, density estimation.
 
+Something about how we will use the word ``model'' in what follows.
+
 \section{Why do we need machine learning?}
 
 Label transfer.
@@ -123,7 +129,21 @@ Speeding up simulations?
 
 The short summary is that we need machine learning; we can't live without it.
 
-\section{What does machine learning do well?}
+\section{The ontology and epistemology of machine learning}
+
+HOGG: Definitions of latent variables and so on; what are latent variables and why are they important?
+
+Contemporary machine-learning models---and especially deep-learning models---have explicit unbroken, combinatorically large degeneracies.
+That is, the weights and nodes in various layers of the network have permutation symmetries such that a very large space of permutation operators can be applied to the latent space without making any changes whatsoever to the input--output relationships of the model.
+That shows that there is no belief in the meaning of any internal latent variables.
+
+Furthermore, stochastic gradient, early stopping and so on:
+There isn't even a belief that the latents should be the actual argmin of anything.
+The latent values are of absolutely no importance or meaning whatsoever.
+
+If there is any stability to a model, it is the stability of its predictions, or its behavior on held-out data.
+
+Also maybe mention here the statistical philosophy or care.
 
 \section{When is machine learning a bad idea?}
 
