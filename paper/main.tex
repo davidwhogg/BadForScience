@@ -10,51 +10,59 @@
 % ------------
 % - Uhhh.
 
-\documentclass[modern]{aastex631}
+\documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage[letterpaper]{geometry}
 
 % Hogg typesetting issues
-\addtolength{\textheight}{0.8in}
-\addtolength{\topmargin}{-0.4in}
+\setlength{\textwidth}{6.50in}
+\setlength{\oddsidemargin}{0.00in}
+\setlength{\textheight}{9.00in}
+\setlength{\topmargin}{-0.50in}
 \setlength{\parindent}{1.2\baselineskip} % seriously
-\renewcommand{\twocolumngrid}{} % omg
+\linespread{1.08}
 \frenchspacing\raggedbottom\sloppy\sloppypar
+\renewcommand{\author}[1]{\medskip\par\noindent\textbf{#1}}
+\newcommand{\affil}[1]{{\footnotesize\par\noindent #1 \par}}
+
+% Gross
+\newcommand{\apj}{The Astrophysical Journal}
+\newcommand{\araa}{Annual Reviews in Astronomy and Astrophysics}
 
 % Math issues
 \newcommand{\teff}{T_{\mathrm{eff}}}
 \newcommand{\logg}{\log g}
 \newcommand{\feh}{[\mathrm{Fe}/\mathrm{H}]}
 
-\shorttitle{machine learning and astrophysics}
-\shortauthors{hogg}
-
 \begin{document}
 
-\title{Is deep learning good or bad for astrophysics?}
+\section*{Is machine learning good or bad for the natural sciences?}
 
-\author[0000-0003-2866-9403]{David W. Hogg}
-\affiliation{Center for Cosmology and Particle Physics, Department of Physics, New York University, 726~Broadway, New~York,~NY 10003, USA}
-\affiliation{Max-Planck-Institut f{\"u}r Astronomie, K{\"o}nigstuhl 17, D-69117 Heidelberg, Germany}
-\affiliation{Flatiron Institute, 162 Fifth Avenue, New~York,~NY 10010, USA}
+\author{David W. Hogg}
+\affil{Center for Cosmology and Particle Physics, Department of Physics, New York University, 726~Broadway, New~York,~NY 10003, USA}
+\affil{Center for Data Science, New York University, 60 Fifth Avenue, New York, NY 10011, USA}
+\affil{Max-Planck-Institut f{\"u}r Astronomie, K{\"o}nigstuhl 17, D-69117 Heidelberg, Germany}
+\affil{Flatiron Institute, a division of the Simons Foundation, 162 Fifth Avenue, New~York,~NY 10010, USA}
 
-\begin{abstract}\noindent % seriously!
-  Deep-learning methods are having a huge impact across the sciences.
-  Advances have come from classification, regression, dimensionality reduction, clustering(?), and many other things.
-  However, deep learning (and machine learning more generally) has a strong ontology, in which only the data exist, and a strong epistemology, in which a model is considered good if (and only if) it performs well on held-out data that is similar to the training data.
-  These philosophies are in strong conflict from standard practice and philosophy in the natural sciences, and astrophysics in particular.
-  Here I identify uses for deep learning in astrophysics where the ontology and epistemology (and computational performance) are valuable.
-  I also call out uses for deep learning that are not a good idea.
-  In particular, there are a lot of reasons to be concerned about the use of complex machine-learning models to emulate physical (or first-principles) simulations, for epistemological and confirmation-bias reasons.
-  On the other hand, there are places in which the introduction of deep learning can make a project more scientifically conservative:
-  When a flexible machine-learning model is used to represent the effects of nuisances, such as foregrounds, backgrounds, or tellurics, the model capacity and loose philosophy of the method can in fact make the project more trustworthy.
-\end{abstract}
+\paragraph{Abstract}
+  Machine learning (ML) methods are having a huge impact across all of the sciences.
+  Advances have come from classification, regression, dimensionality reduction, clustering, emulation, and many other things.
+  However, ML has a strong ontology---in which only the data exist---and a strong epistemology---in which a model is considered good if it performs well on held-out training data.
+  These philosophies are in strong conflict with both standard practices and key philosophies in the natural sciences.
+  Here I identify locations for ML in the natural sciences where the ontology and epistemology (and computational performance) are valuable.
+  I also call out uses for ML that are not a good idea.
+  In particular, there are a lot of reasons to be concerned about the use of complex ML models to emulate physical (or first-principles) simulations, for epistemological and confirmation-bias reasons.
+  On the other hand, there are also places where the introduction of ML can in fact make a project more scientifically conservative:
+  When a flexible machine-learning model is used to represent the effects of nuisances, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of the method can sometimes make the results more trustworthy.
+  These remarks are intended to apply to all of the natural sciences, but most of the specific examples are in the astrophysics domain.
 
 \section{Introduction}\label{sec:intro}
 
 It is an understatement to say that deep learning is having a big impact across the sciences.
 There are hundreds of papers per year now on deep-learning methods in astrophysics alone.
 However, when we ask what scientific breakthroughs have been enabled by this influx of new tools and methods, there isn't a long list.
-The success of the AlphaFold projects in protein structure (\citealt{alphafold}) are often raised.
+The success of the AlphaFold projects in protein structure (\cite{alphafold}) are often raised.
 But these are successes in a biological or medical field, not astrophysics, and in a very specific challenge-problem setting in which performance is valued over understanding.
 Here in astrophysics we care almost exclusively about understanding.
 
@@ -70,7 +78,7 @@ The question here is: How can deep learning contribute to this mission?
 I mentioned the word ``performance'' above.
 One of the key ideas of machine-learning methods is that they are usually judged in terms of their performance, or their ability to predict or explain new data.
 That's different, philosophically, from what's traditionally important in astrophysics.
-When the expansion of the Universe was discovered (\citealt{expansion, expansion2}), the result was not (primarily) judged on the basis of its ability to predict new data.
+When the expansion of the Universe was discovered (\cite{expansion, expansion2}), the result was not (primarily) judged on the basis of its ability to predict new data.
 That is, the investigators were not mainly trying to predict the Doppler shifts of held-out galaxies!
 They were trying to measure a property of the Universe, traced by galaxies.
 And their result answered some important questions, and raised new ones.
@@ -83,8 +91,8 @@ HOGG: NEED to make the point, here or below, that I respect the ML point of view
 I don't want to sound anti-technological however.
 Machine learning is a new and productive technology.
 We should use it!
-Astrophysics has moved forward through technological progress, starting with Galileo (\citealt{galileo}).
-In my own lifetime, the most remarkable technological advance was (probably) the change from photographic plates to charge-coupled devices (CCDs; see, for an early review, \citealt{ccd}).
+Astrophysics has moved forward through technological progress, starting with Galileo (\cite{galileo}).
+In my own lifetime, the most remarkable technological advance was (probably) the change from photographic plates to charge-coupled devices (CCDs; see, for an early review, \cite{ccd}).
 In just a few years, almost every telescope and spectrograph in the world switched from a photographic focal plane to a CCD focal plane, and immediately there were new discoveries.
 That's a case in which new technology immediately translated into new discoveries.
 That hasn't been nearly so true with machine learning, and (I note with respect), it is way easier to incorporate machine learning into your workflow than to incorporate CCDs into your optical path.
@@ -105,7 +113,7 @@ So if we are going to be more specific, we'd like the model capacity or capabili
 There is a more specific definition of machine learning in terms of specific methods:
 Whenever a neural network or a Gaussian process is in play, machine learning is in play.
 But when the former definition is too broad, the latter is almost always too narrow.
-For example, principal components analysis (PCA) is a workhorse in astronomy since way back (for example, \citealt{pcaredshift}), and PCA is an old, and simple, but definitely machine-learning, method.
+For example, principal components analysis (PCA) is a workhorse in astronomy since way back (for example, \cite{pcaredshift}), and PCA is an old, and simple, but definitely machine-learning, method.
 
 Supervised and unsupervised.
 
@@ -158,6 +166,6 @@ Come back to the planet-search example.
 Hello World!
 
 \bibliography{ml_in_astro}
-\bibliographystyle{aasjournal}
+\bibliographystyle{plain}
 
 \end{document}
