@@ -3,7 +3,8 @@
 % - Write a title and abstract.
 % - Write an outline.
 % - Fill in the outline.
-% - Publish.
+% - Publish on arXiv.
+% - Format as ICML Position Paper (including title change).
 % - Wait for the call from Stockholm.
 
 % Style notes:
@@ -21,6 +22,7 @@
 \setlength{\textheight}{9.00in}
 \setlength{\topmargin}{-0.50in}
 \setlength{\parindent}{1.2\baselineskip} % seriously
+\renewenvironment{abstract}{\paragraph{Abstract:}}{}
 \linespread{1.08}
 \frenchspacing\raggedbottom\sloppy\sloppypar
 \renewcommand{\author}[1]{\medskip\par\noindent\textbf{#1}}
@@ -37,7 +39,8 @@
 
 \begin{document}
 
-\section*{Is machine learning good or bad for the natural sciences?}
+\section*{\raggedright %Position Paper:
+Is machine learning good or bad for the natural sciences?}
 
 \author{David W. Hogg}
 \affil{Center for Cosmology and Particle Physics, Department of Physics, New York University, 726~Broadway, New~York,~NY 10003, USA}
@@ -45,37 +48,35 @@
 \affil{Max-Planck-Institut f{\"u}r Astronomie, K{\"o}nigstuhl 17, D-69117 Heidelberg, Germany}
 \affil{Flatiron Institute, a division of the Simons Foundation, 162 Fifth Avenue, New~York,~NY 10010, USA}
 
-\paragraph{Abstract}
+\begin{abstract}
   Machine learning (ML) methods are having a huge impact across all of the sciences.
   Advances have come from classification, regression, dimensionality reduction, clustering, emulation, and many other things.
   However, ML has a strong ontology---in which only the data exist---and a strong epistemology---in which a model is considered good if it performs well on held-out training data.
   These philosophies are in strong conflict with both standard practices and key philosophies in the natural sciences.
   Here I identify locations for ML in the natural sciences where the ontology and epistemology (and computational performance) are valuable.
-  I also call out uses for ML that are not a good idea.
-  In particular, there are a lot of reasons to be concerned about the use of complex ML models to emulate physical (or first-principles) simulations, for epistemological and confirmation-bias reasons.
+  I also call out places in current practice where the introduction of ML introduces strong, unwanted statistical biases.
+  For one, when ML models are used to emulate physical (or first-principles) simulations, they bring strong confirmation biases.
+  For another, when flexible regressions are used to make datasets, the elements of those datasets cannot be used in joint analyses without taking on uncontrolled biases.
   On the other hand, there are also places where the introduction of ML can in fact make a project more scientifically conservative:
   When a flexible machine-learning model is used to represent the effects of nuisances, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of the method can sometimes make the results more trustworthy.
   These remarks are intended to apply to all of the natural sciences, but most of the specific examples are in the astrophysics domain.
+\end{abstract}
 
 \section{Introduction}\label{sec:intro}
 
-It is an understatement to say that deep learning is having a big impact across the sciences.
+HOGG FIX: It is an understatement to say that deep learning is having a big impact across the sciences.
 There are hundreds of papers per year now on deep-learning methods in astrophysics alone.
 However, when we ask what scientific breakthroughs have been enabled by this influx of new tools and methods, there isn't a long list.
 The success of the AlphaFold projects in protein structure (\cite{alphafold}) are often raised.
 But these are successes in a biological or medical field, not astrophysics, and in a very specific challenge-problem setting in which performance is valued over understanding.
 Here in astrophysics we care almost exclusively about understanding.
 
-If we broaden our scope from deep learning to machine learning more generally, we can point to very important contributions of machine learning to astrophysics.
-Kepler discoveries
-PCA and, eg, SDSS redshift system
-
-Astrophysics is an academic discipline, concerned with understanding the physical world, and naturally occurring mechanisms in play in that world.
+HOGG FIX: Astrophysics is an academic discipline, concerned with understanding the physical world, and naturally occurring mechanisms in play in that world.
 We make progress by discovering new kinds of objects and phenomena, and explaining (and, even better, predicting) new kinds of objects and phenomena.
 Our most successful investigations are judged in terms of the questions they answer, or the new questions they raise, or both.
 The question here is: How can deep learning contribute to this mission?
 
-I mentioned the word ``performance'' above.
+HOGG FIX: I mentioned the word ``performance'' above.
 One of the key ideas of machine-learning methods is that they are usually judged in terms of their performance, or their ability to predict or explain new data.
 That's different, philosophically, from what's traditionally important in astrophysics.
 When the expansion of the Universe was discovered (\cite{expansion, expansion2}), the result was not (primarily) judged on the basis of its ability to predict new data.
@@ -97,10 +98,13 @@ In just a few years, almost every telescope and spectrograph in the world switch
 That's a case in which new technology immediately translated into new discoveries.
 That hasn't been nearly so true with machine learning, and (I note with respect), it is way easier to incorporate machine learning into your workflow than to incorporate CCDs into your optical path.
 
-I am both a developer of machine-learning methods, and a skeptic who thinks they should only rarely be used.
-That said, there are reasons that we absolutely must use machine learning in the near future of astrophysics.
-And there are indeed successes of machine learning that might seem invisible.
-I'll try to speak to both of these points below.
+\paragraph{Our contributions:}
+\begin{itemize}
+  \item We deliver a description of the fundamental \emph{ontology} and \emph{epistemology} of machine learning, and contrast these with the ontologies and epistemologies of the natural sciences.
+  \item We elucidate two important and strong statistical biases that are being introduced to the natural sciences by some of the uses of ML in those disciplines. One is a confirmation bias that arises when simulations are replaced or augmented by emulators. Another is a more standard estimator bias that is (possibly enormously) amplified when elements of datasets produced by ML regressions are used in combination or joint analyses.
+  \item We show that there are many safe places for the use of ML methods in current natural-science practices, and places where (in the contemporary context) the use of ML methods is effectively \emph{required}. Many of these places are in the operational parts of scientific projects.
+  \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most flexible ML method delivers \emph{the most conservative approach} to the scientific problem. These contexts are causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
+\end{itemize}
 
 \section{What is machine learning?}\label{sec:what}
 
