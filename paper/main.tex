@@ -2,7 +2,8 @@
 % ------
 % - Write an outline.
 % - Fill in the outline.
-% - Publish.
+% - Publish on the arXiv.
+% - format for ICML Position Paper and submit.
 % - Wait for the call from Stockholm.
 
 % Style notes:
@@ -20,10 +21,11 @@
 \setlength{\textheight}{9.00in}
 \setlength{\topmargin}{-0.50in}
 \setlength{\parindent}{1.2\baselineskip} % seriously
-\linespread{1.08}
-\frenchspacing\raggedbottom\sloppy\sloppypar
+\renewenvironment{abstract}{\paragraph{Abstract:}}{}
 \renewcommand{\author}[1]{\medskip\par\noindent\textbf{#1}}
 \newcommand{\affil}[1]{{\footnotesize\par\noindent #1 \par}}
+\linespread{1.08}
+\frenchspacing\raggedbottom\sloppy\sloppypar
 
 % Gross
 \newcommand{\apj}{The Astrophysical Journal}
@@ -46,14 +48,13 @@
 
 \begin{abstract}
   Machine learning (ML) methods are having a huge impact across all of the sciences.
-  Advances have come from classification, regression, dimensionality reduction, clustering, emulation, and many other things.
   However, ML has a strong ontology---in which only the data exist---and a strong epistemology---in which a model is considered good if it performs well on held-out training data.
   These philosophies are in strong conflict with both standard practices and key philosophies in the natural sciences.
-  Here we identify locations for ML in the natural sciences where the ontology and epistemology (and computational performance) are valuable.
-  We also show that the introduction of ML introduces strong, unwanted statistical biases.
+  Here we identify locations for ML in the natural sciences where the ontology and epistemology are valuable.
+  For example, when a flexible machine-learning model is used in a causal inference to represent the effects of confounders, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of ML can sometimes make the results more trustworthy.
+  We also show that the there are contexts in which the introduction of ML introduces strong, unwanted statistical biases.
   For one, when flexible models are used to emulate physical (or first-principles) simulations, they introduce strong confirmation biases.
   For another, when flexible regressions are used to make datasets, the elements of those datasets cannot be used in joint analyses without taking on uncontrolled biases.
-  On the other hand, there are also places where the introduction of ML can in fact make a project more scientifically conservative; when a flexible machine-learning model is used to represent the effects of nuisances, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy can sometimes make the results more trustworthy.
   These remarks are intended to apply to all of the natural sciences, but most of the specific examples are in the astrophysics domain.
 \end{abstract}
 
