@@ -60,34 +60,33 @@
 
 \section{Introduction}\label{sec:intro}
 
-It is an understatement to say that deep learning is having a big impact across the sciences.
-There are hundreds of papers per year now on deep-learning methods in astrophysics alone.
+It is an understatement to say that machine learning (ML) is having a big impact across the sciences.
+A significant fraction of all scientific papers in the natural sciences now employ ML in part (or all) of their analyses.
 However, when we ask what scientific breakthroughs have been enabled by this influx of new tools and methods, there isn't a long list.
-The success of the AlphaFold projects in protein structure (\cite{alphafold}) are often raised.
-But these are successes in a biological or medical field, not astrophysics, and in a very specific challenge-problem setting in which performance is valued over understanding.
-Here in astrophysics we care almost exclusively about understanding.
+The success of the AlphaFold projects in protein structure \cite{alphafold} are often raised.
+But these are successes in a very specific challenge-problem setting in which \emph{performance} is valued over \emph{understanding}.
+In the natural sciences we almost exclusively care about understanding, in the long run.
 
-If we broaden our scope from deep learning to machine learning more generally, we can point to very important contributions of machine learning to astrophysics.
-Kepler discoveries
-PCA and, eg, SDSS redshift system
-
-Astrophysics is an academic discipline, concerned with understanding the physical world, and naturally occurring mechanisms in play in that world.
-We make progress by discovering new kinds of objects and phenomena, and explaining (and, even better, predicting) new kinds of objects and phenomena.
+The natural sciences are concerned with understanding the world, and naturally occurring mechanisms in play in that world.
+We make progress by discovering new kinds of objects and phenomena, and explaining (and, even better, predicting) qualitatively new kinds of objects and phenomena.
 Our most successful investigations are judged in terms of the questions they answer, or the new questions they raise, or both.
-The question here is: How can deep learning contribute to this mission?
+The question here is: How will ML contribute to this mission?
 
-I mentioned the word ``performance'' above.
-One of the key ideas of machine-learning methods is that they are usually judged in terms of their performance, or their ability to predict or explain new data.
-That's different, philosophically, from what's traditionally important in astrophysics.
-When the expansion of the Universe was discovered (\cite{expansion, expansion2}), the result was not (primarily) judged on the basis of its ability to predict new data.
-That is, the investigators were not mainly trying to predict the Doppler shifts of held-out galaxies!
-They were trying to measure a property of the Universe, traced by galaxies.
-And their result answered some important questions, and raised new ones.
-Of course the expansion result has lasted in part because it \emph{does} make new predictions for new data, and very accurate predictions!
-So it isn't irrelevant that the performance of the hypothesis is good.
-However, there is some disconnect between how we assess a machine-learning method and how we assess a scientific contribution.
+In contrast to natural science, ML research and ML methods are concerned with making accurate predictions for, or descriptions of, \emph{data}.
+A ML method is considered successful if it performs well on held-out training data, even if the latent structure of the model is generic and the internals are impossible to interpret.
+In ML, the considerations are all at the level of the data, and we are happy to use models the parameters of which we don't understand in detail.
+In natural science, on the other hand, the considerations are all at the level of the \emph{latents}:
+We use data to learn about the latent structure of the world or of the system we are studying.
+The things we care about are almost never directly observable; they are latent objects in a physical (or chemical or biological) model that predicts the observables.
 
-HOGG: NEED to make the point, here or below, that I respect the ML point of view. It could be helpful for astrophysics if we moved towards it in some ways. Oh and the statistical care is of interest too. Maybe this is a section about the underlying philosophies of ML.
+For a concrete example, when the expansion of the Universe was discovered \cite{expansion, expansion2}, the discovery was important, but not because it permitted us to predict the values of the redshifts of previously unobserved galaxies (though it did indeed permit that).
+The discovery was important because it told us previously unknown things about the age and evolution of the Universe, and it confirmed a prediction of general relativity, which is a theory of the latent structure of space and time.
+The discovery would not have been seen as important if Hubble and Humason had instead announced that they had trained a deep multilayer perceptron that could predict the Doppler shifts of held-out extragalactic nebulae.
+
+HOGG: NEED to make the point, here or below, that we respect the ML point of view. It could be helpful for some areas in natural science if we moved towards it in some ways. Oh and the statistical care is of interest too. Maybe this should move to the section about the underlying philosophies of ML.
+
+HOGG: Make sure we say: One way to state the question raised in this position paper is:
+\emph{Where, in the natural sciences, can you use a model that you don't understand?}
 
 I don't want to sound anti-technological however.
 Machine learning is a new and productive technology.
@@ -173,6 +172,9 @@ Come back to the planet-search example.
 \section{Discussion}\label{sec:discussion}
 
 Hello World!
+
+\paragraph{Acknowledgements:}
+Hill, Roweis, Sch\"olkopf, Villar.
 
 \bibliography{ml_in_astro}
 \bibliographystyle{plain}
