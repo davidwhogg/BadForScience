@@ -8,12 +8,14 @@
 
 % Style notes:
 % ------------
-% - Uhhh.
+% - Be very careful about the SUBJECT of sentences. Is it ML that is bad? Is it the practice that is bad? Is it the practitioner that is bad?
+% - [more here]
 
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
 \usepackage[letterpaper]{geometry}
+\usepackage{xcolor}
 
 % Hogg typesetting issues
 \setlength{\textwidth}{6.50in}
@@ -21,9 +23,13 @@
 \setlength{\textheight}{9.00in}
 \setlength{\topmargin}{-0.50in}
 \setlength{\parindent}{1.2\baselineskip} % seriously
-\renewenvironment{abstract}{\paragraph{Abstract:}}{}
+\renewcommand{\title}[1]{\section*{\raggedright #1}}
 \renewcommand{\author}[1]{\medskip\par\noindent\textbf{#1}}
 \newcommand{\affil}[1]{{\footnotesize\par\noindent #1 \par}}
+\renewenvironment{abstract}{\paragraph{Abstract:}}{}
+\newcommand{\documentname}{\textsl{Position Paper}}
+\pagestyle{myheadings}
+\markboth{foo}{\textcolor{gray}{\textsf{Hogg / Is machine learning good or bad for the natural sciences?}}}
 \linespread{1.08}
 \frenchspacing\raggedbottom\sloppy\sloppypar
 
@@ -36,9 +42,9 @@
 \newcommand{\logg}{\log g}
 \newcommand{\feh}{[\mathrm{Fe}/\mathrm{H}]}
 
-\begin{document}
+\begin{document}\thispagestyle{empty}
 
-\section*{Is machine learning good or bad for the natural sciences?}
+\title{\documentname: Is machine learning good or bad for the natural sciences?}
 
 \author{David W. Hogg}
 \affil{Center for Cosmology and Particle Physics, Department of Physics, New York University, 726~Broadway, New~York,~NY 10003, USA}
@@ -74,33 +80,23 @@ The question here is: How will ML contribute to this mission?
 
 In contrast to natural science, ML research and ML methods are concerned with making accurate predictions for, or descriptions of, \emph{data}.
 A ML method is considered successful if it performs well on held-out training data, even if the latent structure of the model is generic and the internals are impossible to interpret.
-In ML, the considerations are all at the level of the data, and we are happy to use models the parameters of which we don't understand in detail.
-In natural science, on the other hand, the considerations are all at the level of the \emph{latents}:
-We use data to learn about the latent structure of the world or of the system we are studying.
-The things we care about are almost never directly observable; they are latent objects in a physical (or chemical or biological) model that predicts the observables.
+In ML, the considerations are all at the level of the data, and we are happy to use models where we have litlle or no understanding of the meanings or values of the latent parameters or weights.
+Another way to ask our question is:
+\emph{Where, in the natural sciences, can you use a model that you don't understand?}
 
-For a concrete example, when the expansion of the Universe was discovered \cite{expansion, expansion2}, the discovery was important, but not because it permitted us to predict the values of the redshifts of previously unobserved galaxies (though it did indeed permit that).
+In natural science the most important contributions and results are all at the level of the \emph{latents}:
+We use data to learn about the latent structure of the world or of the system we are studying.
+In astrophysics, this could be the interior structure of the Sun, or the statistics of planets around other stars, or the map of the dark matter surrounding the Milky Way.
+The things we care about are almost never directly observable; they are parameters (or hyper-parameters) of a physical (or chemical or biological) model that predicts the observables.
+
+For a concrete example, when the expansion of the Universe was discovered \cite{expansion, expansion2}, the discovery was important, but not because it permitted us to predict the values of the redshifts of new galaxies (though it did indeed permit that).
 The discovery was important because it told us previously unknown things about the age and evolution of the Universe, and it confirmed a prediction of general relativity, which is a theory of the latent structure of space and time.
 The discovery would not have been seen as important if Hubble and Humason had instead announced that they had trained a deep multilayer perceptron that could predict the Doppler shifts of held-out extragalactic nebulae.
 
-HOGG: NEED to make the point, here or below, that we respect the ML point of view. It could be helpful for some areas in natural science if we moved towards it in some ways. Oh and the statistical care is of interest too. Maybe this should move to the section about the underlying philosophies of ML.
-
-HOGG: Make sure we say: One way to state the question raised in this position paper is:
-\emph{Where, in the natural sciences, can you use a model that you don't understand?}
-
-I don't want to sound anti-technological however.
-Machine learning is a new and productive technology.
-We should use it!
-Astrophysics has moved forward through technological progress, starting with Galileo (\cite{galileo}).
-In my own lifetime, the most remarkable technological advance was (probably) the change from photographic plates to charge-coupled devices (CCDs; see, for an early review, \cite{ccd}).
-In just a few years, almost every telescope and spectrograph in the world switched from a photographic focal plane to a CCD focal plane, and immediately there were new discoveries.
-That's a case in which new technology immediately translated into new discoveries.
-That hasn't been nearly so true with machine learning, and (I note with respect), it is way easier to incorporate machine learning into your workflow than to incorporate CCDs into your optical path.
-
-I am both a developer of machine-learning methods, and a skeptic who thinks they should only rarely be used.
-That said, there are reasons that we absolutely must use machine learning in the near future of astrophysics.
-And there are indeed successes of machine learning that might seem invisible.
-I'll try to speak to both of these points below.
+We are both ML \emph{skeptics} and ML \emph{practitioners}.
+We are writing this for an audience that is either developing an ML method for science applications or else bringing ML into a scientific domain.
+The main points of this \documentname{} are \textsl{(1)}~that ML has places where it is very valuable in the contemporary practice of science, and \textsl{(2)}~that it also has places where it will create problems for science.
+The answer to the question in the title is ``Both.''
 
 \paragraph{Our contributions:}
 \begin{itemize}
@@ -110,26 +106,66 @@ I'll try to speak to both of these points below.
   \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most flexible ML method delivers \emph{the most conservative approach} to the scientific problem. These contexts are causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
 \end{itemize}
 
-\section{What is machine learning?}\label{sec:what}
+\section{The ontology and epistemology of machine learning}
 
-There is a vague definition of machine learning in terms of data and capacity:
-A method is a machine-learning method if its capability increases (hopefully dramatically) as the machine sees more data (HOGG GET THIS MORE PRECISE AND CITE).
-In some sense this is true of any measurement process:
-The measurement improves as more data come in!
-So if we are going to be more specific, we'd like the model capacity or capability to improve faster (in some sense) than something like the square root of the increment in data.
+\paragraph{What is machine learning?}
+For the purposes of this \documentname, we will employ an expansive or inclusive definition of ML.
+For us, a method is ML if its \emph{capability increases substantially as it sees more data} \cite{ml_definition}.
+In some sense this definition could be seen as true of any measurement process, since measurements improve as the data improve. 
+If we are going to be more specific, we'd like the model precision or capability to improve faster (in some sense) than (something like) the square root of the increment in data.
 
-There is a more specific definition of machine learning in terms of specific methods:
-Whenever a neural network or a Gaussian process is in play, machine learning is in play.
-But when the former definition is too broad, the latter is almost always too narrow.
-For example, principal components analysis (PCA) is a workhorse in astronomy since way back (for example, \cite{pcaredshift}), and PCA is an old, and simple, but definitely machine-learning, method.
+This definition is broad:
+In addition to methods like convolutional neural networks \cite{cnn}, multi-layer perceptrons \cite{mlp}, and transformers \cite{transformer}, it includes large linear regressions \cite{linearregression}, gaussian processes \cite{gp}, support-vector machines \cite{svm}, principal components analysis \cite{pca}, kernel density estimates \cite{kde}, and even some kinds of multilayer or hierarchical models \cite{multilevel}.
+Feel free to personally take any more restrictive definition.
+Our comments will apply to everything in the larger class.
 
-Supervised and unsupervised.
+\paragraph{Ontology:}
+Unsupervised ML methods deliver descriptions or compressions of data.
+Supervised ML methods find relationships between data (features) and data (labels).
+In both cases, the methods are judged on their capability to accurately describe the data.
+They are not judged on the details of their latent structure.
+In a very important sense, the ML ontology is that \emph{only the data exist}.
 
-Classification, regression.
+In support of this point of view, here are some comments:
+Deep-learning models have enormously large internal degeneracies (combinatorial degeneracies even).
+These degeneracies are not seen as a problem, since all they do is make the latent weights less interpretable.
+Contemporary optimization schemes are stochastic \cite{stochastic} and most models are non-convex.
+The fact that it is impossible to find the global optimum---and the fact that in most contemporary models that isn't even the goal \cite{not_global}---shows that the latent parameters are not important.
+The use of early stopping \cite{early_stop} and drop-outs \cite{dropout} to stabilize optimization strengthens this point.
+Any practitioner using a 40-layer network can trivially (and without analysis) switch to a 42-layer, despite the fact that (from a functional point of view), this substantially changes the model capacity.
 
-Dimensionality reduction, clustering, density estimation.
+Models are deemed stably optimized and useful not if the latent space is stable, but rather if the predictions for held-out data are stable.
+Thus it is the data that exist in ML contexts, not the latent parameters.
 
-Something about how we will use the word ``model'' in what follows.
+\paragraph{Epistemology:}
+A trained ML model is deemed successful or correct if \emph{it performs well on held-out training data}.
+This epistemological position is related strongly to the ontological position:
+If only the data exist, then the success of a model is judged only in terms of the data it describes.
+
+In support of this position we could point to the literature on adversarial attacks \cite{adversarial1, adversarial2}.
+This literature shows us, in dramatic ways, that ML methods are not doing what we (na\"ively) believe that humans or scientists or scientific theories do in comparable circumstances.
+And yet, these attacks do not suggest (to most practitioners of ML) that the methods are wrong or require revision.
+Even the responses to attacks have responded in ways that involve augmentation of data \cite{adversarial_training}, such that the vulnerability to attack is lessened without compromising the fundamental epistemological point that performance on data is the primary standard of truth.
+
+A critic of our epistemological claim could point to the large literature on out-of-sample generalization, transfer learning \cite{transfer}, or the more grand contemporary idea of foundation models \cite{foundation}.
+But even in these contexts, models are deemed successful when they explain new or held-out data; the latent structure of the models is not a primary consideration when the validity of the model is in question.
+
+\paragraph{Natural sciences:}
+Ontologies and epistemologies are somewhat different in different scientific fields---and among different practitioners---but in almost no natural-scientific context do the ontology and epistemology match those of ML.
+
+In physics, for example, the ontology is much broader than it is in ML.
+Not only do the data exist, but so do forces, energies, momenta, charges, spacetime, wave functions, virtual particles, and much more.
+These entities are judged to exist in part because they are involved in the latent structure of the successful theories; almost none of them are direct observables.
+
+In physics the epistemology is much more restrictive than it is in ML.
+A physics model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed if it explains some aspects of different data in multiple domains, and if it connects in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
+It is worthy of noting here that a successful theory is usually a combination of a simple theory of the latents, and a less simple observation model, which explains how the latents appear in the data space.
+
+Differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
+In the long run, the data are more stable than the fundamental theories of physics:
+Newtonian gravity was replaced with general relativity, and we expect general relativity to be replaced by some kind of quantum gravitational theory.
+At each change, the ontology changes, while the data are stable.
+We are not recommending this, but noting that a robust theory of physics might be more positively oriented towards the data than standard practice.
 
 \section{Why do we need machine learning in the natural sciences?}
 
@@ -141,41 +177,37 @@ Modeling nuisances.
 
 Classification?
 
+Outlier detection.
+
 Speeding up simulations?
 
 The short summary is that we need machine learning; we can't live without it.
 
-\section{The ontology and epistemology of machine learning}
+Engineering point: Science requires execution of projects. Execution requires engineering. ML is often great for helping with that engineering.
 
-HOGG: Definitions of latent variables and so on; what are latent variables and why are they important?
+\section{When is machine learning bad for natural science?}
 
-Contemporary machine-learning models---and especially deep-learning models---have explicit unbroken, combinatorically large degeneracies.
-That is, the weights and nodes in various layers of the network have permutation symmetries such that a very large space of permutation operators can be applied to the latent space without making any changes whatsoever to the input--output relationships of the model.
-That shows that there is no belief in the meaning of any internal latent variables.
+Multiplication of priors argument. Confirmation bias argument.
 
-Furthermore, stochastic gradient, early stopping and so on:
-There isn't even a belief that the latents should be the actual argmin of anything.
-The latent values are of absolutely no importance or meaning whatsoever.
+\section{When is machine learning good for natural science?}
 
-If there is any stability to a model, it is the stability of its predictions, or its behavior on held-out data.
-
-Also maybe mention here the statistical philosophy or care.
-
-\section{When is machine learning a bad idea?}
-
-Adversarial attacks argument. Confirmation bias argument. Planet search argument.
-
-\section{When is machine learning the conservative choice?}
-
-Come back to the planet-search example.
+Foreground, background, and confounder models.
 
 \section{Discussion}\label{sec:discussion}
 
 Hello World!
 
 \paragraph{Acknowledgements:}
-Hill, Roweis, Sch\"olkopf, Villar.
+It is a pleasure to thank
+  Gaby Contardo (SISSA),
+  Jennifer Hill (NYU),
+  Adrian Price-Whelan (Flatiron),
+  Sam Roweis (deceased),
+  Bernhard Sch\"olkopf (MPI-IS), and
+  Soledad Villar (JHU)
+for conversations over the years related to these arguments.
 
+\raggedright
 \bibliography{ml_in_astro}
 \bibliographystyle{plain}
 
