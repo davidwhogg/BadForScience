@@ -20,7 +20,7 @@
 % Hogg typesetting issues
 \setlength{\textwidth}{6.50in}
 \setlength{\oddsidemargin}{0.00in}
-\setlength{\textheight}{9.00in}
+\setlength{\textheight}{9.25in}
 \setlength{\topmargin}{-0.50in}
 \setlength{\parindent}{1.2\baselineskip} % seriously
 \renewcommand{\title}[1]{\section*{\raggedright #1}}
@@ -65,7 +65,6 @@
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
-
 It is an understatement to say that machine learning (ML) is having a big impact across the sciences.
 A significant fraction of all scientific papers in the natural sciences now employ ML in part (or all) of their analyses.
 However, when we ask what scientific breakthroughs have been enabled by this influx of new tools and methods, there isn't a long list.
@@ -106,7 +105,7 @@ The answer to the question in the title is ``Both.''
   \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most flexible ML method delivers \emph{the most conservative approach} to the scientific problem. These contexts are causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
 \end{itemize}
 
-\section{The ontology and epistemology of machine learning}
+\section{The ontology and epistemology of machine learning}\label{sec:philosophy}
 
 \paragraph{What is machine learning?}
 For the purposes of this \documentname, we will employ an expansive or inclusive definition of ML.
@@ -161,11 +160,11 @@ In physics the epistemology is much more restrictive than it is in ML.
 A physics model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed if it explains some aspects of different data in multiple domains, and if it connects in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
 It is worthy of noting here that a successful theory is usually a combination of a simple theory of the latents, and a less simple observation model, which explains how the latents appear in the data space.
 
-Differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
+HOGG: DROP THIS? Differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
 In the long run, the data are more stable than the fundamental theories of physics:
 Newtonian gravity was replaced with general relativity, and we expect general relativity to be replaced by some kind of quantum gravitational theory.
 At each change, the ontology changes, while the data are stable.
-We are not recommending this, but noting that a robust theory of physics might be more positively oriented towards the data than standard practice.
+We are not recommending this, but noting that a robust philosophy of science might be more positively oriented towards the data than standard practice.
 
 \section{Why do we need machine learning in the natural sciences?}
 
@@ -185,11 +184,57 @@ The short summary is that we need machine learning; we can't live without it.
 
 Engineering point: Science requires execution of projects. Execution requires engineering. ML is often great for helping with that engineering.
 
-\section{When is machine learning bad for natural science?}
+\section{When is machine learning bad for natural science?}\label{sec:bad}
+In this section we elucidate two statistical biases that can be introduced when ML methods are introduced into a natural-science project.
+Neither of these biases can be easily corrected or removed.
 
-Multiplication of priors argument. Confirmation bias argument.
+\paragraph{Multiplications of uncontrolled priors:}
+The outcomes of ML regressions are label estimates that are conditioned on the input features \emph{and also} on the totality of the training set used to train the regression.
+That conditioning on the training set can lead to strong biases when outputs of regressions are used jointly or in combination to measure a population or sub-population property.
 
-\section{When is machine learning good for natural science?}
+Imagine that you have taken data on millions of stars, and you know the precise ages of only a small fraction of them.
+You can train a ML regression on those for which you know the ages, and label all the other stars with the ages delivered by the trained regression model.
+This will leave you with a million stellar ages, which span lots of ages.
+These ages are not precise, because the age information in the data is small; any age estimates will be very noisy.
+Nonetheless, you train this regression, validate it will held-out training data, and produce a publicly available catalog of stellar ages.
+
+Now any investigator can download the catalog, take subsets of stars and ask ``What is the mean age of this subset?''
+For example, they can ask for the mean age for stars at Galactocentric radii $>10$\,kpc, which they expect to be on the younger side (though well within the distribution of ages in your training set).
+The answer they get for this mean age will be \emph{very strongly biased}.
+
+Why? When the information in the data is low (as it is by construction in this example), the prior information coming from the training set is comparatively more important.
+And when you combine many measurements into the mean age, you will generally be compounding (rather than cancelling out) the bias.
+One way to see it is in this toy example: HOGG TOY WITH GAUSSIANS.
+
+HOGG: Summarize the source of the bias. Counter-act this bias? Use LF-only methods if such can be constructed? Train a joint-star model instead!?
+
+\paragraph{Emulator-induced confirmation bias:}
+In many fields in the natural sciences, the fundamental theoretical model is \emph{computational}, meaning that theoretical predictions are made with large computer simulations.
+These simulations are usually limited in the range of length scales and time scales which they can simultaneously compute.
+Comparison of data with simulations usually involves running enormous numbers of simulations \cite{sbi}, because simulations have to span ranges of fundamental parameters and initial conditions and so on.
+Thus these simulation requirements are getting very large for contemporary research projects.
+For example, in cosmology contemporary experiments could easily consume the total computing capacity of the United States.
+Hence we turn to emulators---trained ML regressions that have learned the input-output relationship of a simulation, or the relationship between an inexpensive low-resolution simulation and an expensive high-resolution experiment.
+Emulators can make computationally impossible projects possible.
+
+Recall that because these emulators are ML methods, they generally have uninterpretable internal parameters and weights, and they generally have been validated by comparison with held-out training data.
+Like all high-capacity ML methods, they generally are vulnerable to adversarial attacks.
+
+Now imagine that two cosmology experiments proceed to do enormous emulator-based inferences on large data sets.
+Imagine that these inferences are so large that it would have been exceedingly expensive to have done them with the original first-principles simulations instead of the emulators.
+Experiment A finds cosmological parameters very much in line with our expectations going in.
+Experiment B finds something extremely surprising about the mass matrix for the neutrinos, in conflict with other measurements and our expectations.
+The comment is made, when the results of Experiment B come out, that perhaps the anomaly comes from something very slightly wrong or off in the trained ML emulator.
+
+By construction, both experiments are extremely expensive to re-analyze with first-principles simulations.
+Which one would we fund for reproduction?
+The motivation to re-analyze Experiment B is far, far higher than the motivation to re-analyze Experiment A.
+That is a classic example of \emph{confirmation bias}.
+
+Since the money involved is astronomical, there is no simple fix for this unless we plan to re-analyze all experiments using first-principles simulations, no matter what they find.
+If that is what's required to avoid the bias, then we should just analyze everything with simulations in the first place, and never use the emulators at any stage.
+
+\section{When is machine learning good for natural science?}\label{sec:good}
 
 Foreground, background, and confounder models.
 
