@@ -28,6 +28,7 @@
 \newcommand{\affil}[1]{{\footnotesize\par\noindent #1 \par}}
 \renewenvironment{abstract}{\paragraph{Abstract:}}{}
 \newcommand{\documentname}{\textsl{Position Paper}}
+\newcommand{\sectionname}{Section}
 \pagestyle{myheadings}
 \markboth{foo}{\textcolor{gray}{\textsf{Hogg / Is machine learning good or bad for the natural sciences?}}}
 \linespread{1.08}
@@ -158,7 +159,7 @@ These entities are judged to exist in part because they are involved in the late
 
 In physics the epistemology is much more restrictive than it is in ML.
 A physics model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed if it explains some aspects of different data in multiple domains, and if it connects in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
-It is worthy of noting here that a successful theory is usually a combination of a simple theory of the latents, and a less simple observation model, which explains how the latents appear in the data space.
+It is worthy of note here that a successful theory is usually a combination of a simple theory of the latents, and a less simple observation model, which explains how the latents appear in the data space.
 
 HOGG: DROP THIS? Differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
 In the long run, the data are more stable than the fundamental theories of physics:
@@ -167,25 +168,22 @@ At each change, the ontology changes, while the data are stable.
 We are not recommending this, but noting that a robust philosophy of science might be more positively oriented towards the data than standard practice.
 
 \section{Why do we need machine learning in the natural sciences?}
-
-Label transfer.
-
-Speeding up decisions.
-
-Modeling nuisances.
-
-Classification?
-
-Outlier detection.
-
-Speeding up simulations?
-
-The short summary is that we need machine learning; we can't live without it.
-
-Engineering point: Science requires execution of projects. Execution requires engineering. ML is often great for helping with that engineering.
+In this \sectionname{} we give some idea of how and why ML has had such a big impact in the natural sciences, and how and why many scientific projects require ML technologies.
+In most cases, the ML is required on the engineering or execution side of projects that are large-scale in some sense.
+\begin{description}
+  \item[Label transfer:] Sometimes a project has informative data on a very large number of objects, but precise labels for only a few, maybe obtained through very careful analysis or external data.
+  In this case, if it is extremely expensive to label more objects, a regression can be trained on the labeled data points and then the trained regression used to label
+  \item[Speeding up decisions:]
+  \item[Modeling nuisances:]
+  \item[Classification:]
+  \item[Outlier detection:]
+  \item[Speeding up simulations:]
+\end{description}
+The short summary is that we need ML in the natural sciences; we can't live without it.
+The question here is how we will use it safely?
 
 \section{When is machine learning bad for natural science?}\label{sec:bad}
-In this section we elucidate two statistical biases that can be introduced when ML methods are introduced into a natural-science project.
+In this \sectionname{} we elucidate two statistical biases that can be introduced when ML methods are introduced into a natural-science project.
 Neither of these biases can be easily corrected or removed.
 
 \paragraph{Multiplications of uncontrolled priors:}
@@ -252,8 +250,21 @@ It is a pleasure to thank
   Soledad Villar (JHU)
 for conversations over the years related to these arguments.
 
-\raggedright
+{\raggedright
 \bibliography{ml_in_astro}
 \bibliographystyle{plain}
+}
+
+\clearpage\appendix
+\section{\raggedright Population-level biases in regression outputs}
+A machine-learning (ML) regression learns the best set of parameters or weights $\hat{\theta}$ of a flexible function $f(x;\theta)$ from a training set of labeled data.
+The learned function $f(x;\hat{\theta})$ delivers a predicted or estimated label $\hat{y}$ for any data point with a complete set of features $x$.
+Thus an estimated label $\hat{y}_\ast$ for a data point with features $x_\ast$ has taken information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the weights $\hat{\theta}$.
+In applications in which regression-estimated labels are used, it matters \emph{how much information} is coming from the individual data-point's features and how much from the original training set.
+
+To illustrate these ideas, we construct a toy data analysis.
+This toy is very general, but it has a clearly astronomical feel to it.
+
+Hello world
 
 \end{document}
