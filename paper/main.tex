@@ -19,7 +19,8 @@
 \usepackage{graphicx}
 
 % Hogg typesetting issues
-\setlength{\textwidth}{6.50in}
+\setlength{\textwidth}{6.00in}
+\setlength{\oddsidemargin}{0.25in}
 \setlength{\oddsidemargin}{0.00in}
 \setlength{\textheight}{9.25in}
 \setlength{\topmargin}{-0.50in}
@@ -235,7 +236,9 @@ If that is what's required to avoid the bias, then we should just analyze everyt
 
 \section{When is machine learning good for natural science?}\label{sec:good}
 
-Foreground, background, and confounder models.
+\paragraph{Foreground, background, and confounder models:}
+
+\paragraph{Outlier detection:}
 
 \section{Discussion}\label{sec:discussion}
 
@@ -258,22 +261,36 @@ for conversations over the years related to these arguments.
 
 \clearpage\appendix
 \section{Population-level biases in regression outputs}
-A machine-learning (ML) regression learns the best set of parameters or weights $\hat{\theta}$ of a flexible function $f(x;\theta)$ from a training set of labeled data.
+A machine-learning (ML) regression learns the best set of parameters (weights and thresholds, for example) $\hat{\theta}$ of a flexible function $f(x;\theta)$ from a training set of labeled data.
 The learned function $f(x;\hat{\theta})$ delivers a predicted or estimated label $\hat{y}$ for any data point with a complete set of features $x$.
-Thus an estimated label $\hat{y}_\ast$ for a data point with features $x_\ast$ has taken information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the weights $\hat{\theta}$.
+Thus an estimated label $\hat{y}_\ast$ for a data point with features $x_\ast$ has taken information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the parameters $\hat{\theta}$.
 In applications in which regression-estimated labels are used, it matters \emph{how much information} is coming from the individual data-point's features and how much from the original training set.
 
 To illustrate these ideas, we construct a toy data analysis.
+The complete toy data set is generated with a process with the following elements:
+\begin{enumerate}\setlength{\itemsep}{0in}
+    \item A floating-point value of a known parameter called ``guiding radius'' $r$ is generated in the range $0<r<14$.
+    \item A floating-point value of a latent parameter called ``age'' $\eta$ is generated from a Gaussian with unit variance [HOGG CHECK] and mean $13 - (13/14)\,r$
+    \item The point is discarded if the age is outside the range $0<\eta<13$. If the point is not discarded:
+    \item A $K$-dimensional latent vector $\zeta$ with $K=14$ [HOGG CHECK] is generated from a zero-mean, unit-variance Gaussian.
+    \item A $M$-dimensional latent vector $\xi$ with $M=110$ is created by $\xi = \xi_\eta\,\eta + \xi_\zeta\cdot\zeta$, where $\xi_\eta$ is a $M$-vector and $\xi_\zeta$ is a $M\times K$ matrix. The elements of $\xi_\eta$ and $\xi_\zeta$ were drawn (before the start) from a Gaussian with zero mean and variance $0.00046$ and $0.071$ respectively [HOGG CHECK].
+    \item A label $y$ called ``measured age'' is generated from a Gaussian with unit variance [HOGG CHECK] and mean $\eta$.
+    \item A $M$-dimensional feature vector $x$ called ``the data'' is generated from a Gaussian with variance $0.0025$ and a mean set by taking $1 + \xi$ and rectifying all pixels to lie in the range between zero and unity.
+\end{enumerate}
+The data generated this way are shown in \figurename~\ref{fig:regression}.
 This toy is very general, but it has a clearly astronomical feel to it.
+The data contain a non-trivial relationship between measured age $y$ and guiding radius $r$.
+This relationship is shown in \figurename~\ref{fig:regression}.
+It isn't precisely linear because of the censoring of data points with latent ages outside the range $0<\eta<13$.
 
 Hello world
-\begin{figure}[t!]
+\begin{figure}[p!]
 \includegraphics[width=0.49\textwidth]{notebooks/data_examples.png}
 \includegraphics[width=0.49\textwidth]{notebooks/training_data.png} \\
 \includegraphics[width=0.49\textwidth]{notebooks/validation.png}
 \includegraphics[width=0.49\textwidth]{notebooks/test_data_results.png}
 \caption{\sffamily%
-Hello World!\label{fig:regression}}
+Visualization of the toy regression. \textsl{Top-left:} Random examples of the data vectors $x$, which are one-dimensional images generated from a linear model plus a nonlinearity created by two rectifications. Details of the data generation are given in the text. Each example $x$ is labeled on the right side by the value of its label $y$. \textsl{Top-right:} The training-set labels $y$, plotted against the known parameter $r$, which is not used in the regression (only the vectors $x$ are used). Also shown are solid red circles showing the true mean relationship between $y$ and $r$ in the toy data. Open black squares show the empirical mean relationship measured in bins in the training-set data. \textsl{Bottom-left:} Validation of the trained regression in the validation set, showing that the label estimates $\hat{y}$ are noisy (as expected given the problem set-up) but not strongly biased. \textsl{Bottom-right:} The regression estimates $\hat{y}$ in the very large test set, plotted against the known parameter $r$. Also shown are the same solid red circles and open black squares as in the top-right plot. Black exes show the mean relationship between $\hat{y}$ and $r$. The relationship shown by the exes is very precise but biased far away from the true relationship, unlike the relationship shown by the open squares (measured in the training set alone).\label{fig:regression}}
 \end{figure}
 
 \end{document}
