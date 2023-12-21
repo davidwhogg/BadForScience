@@ -16,6 +16,7 @@
 \usepackage{microtype}
 \usepackage[letterpaper]{geometry}
 \usepackage{xcolor}
+\usepackage{graphicx}
 
 % Hogg typesetting issues
 \setlength{\textwidth}{6.50in}
@@ -266,5 +267,13 @@ To illustrate these ideas, we construct a toy data analysis.
 This toy is very general, but it has a clearly astronomical feel to it.
 
 Hello world
+\begin{figure}[t!]
+\includegraphics[width=0.49\textwidth]{notebooks/data_examples.png}
+\includegraphics[width=0.49\textwidth]{notebooks/training_data.png} \\
+\includegraphics[width=0.49\textwidth]{notebooks/validation.png}
+\includegraphics[width=0.49\textwidth]{notebooks/test_data_results.png}
+\caption{\sffamily%
+Hello World!\label{fig:regression}}
+\end{figure}
 
 \end{document}
