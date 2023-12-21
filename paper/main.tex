@@ -277,13 +277,20 @@ The complete toy data set is generated with a process with the following element
     \item A label $y$ called ``measured age'' is generated from a Gaussian with unit variance [HOGG CHECK] and mean $\eta$.
     \item A $M$-dimensional feature vector $x$ called ``the data'' is generated from a Gaussian with variance $0.0025$ and a mean set by taking $1 + \xi$ and rectifying all pixels to lie in the range between zero and unity.
 \end{enumerate}
-The data generated this way are shown in \figurename~\ref{fig:regression}.
-This toy is very general, but it has a clearly astronomical feel to it.
-The data contain a non-trivial relationship between measured age $y$ and guiding radius $r$.
+The data generated this way are shown in the top panels of \figurename~\ref{fig:regression}.
+This toy will make a very general point, but it has a decidedly astronomical feel to it.
+The data contain a non-trivial relationship between label $y$ (measured age) $y$ and known parameter $r$ (guiding radius).
 This relationship is shown in \figurename~\ref{fig:regression}.
 It isn't precisely linear because of the censoring of data points with latent ages outside the range $0<\eta<13$.
 
-Hello world
+We construct a three-layer multilayer perceptron (MLP) (using the scikit-learn implementation) with layer sizes of 64, 32, and 16 neurons.
+The model is trained on a training set of 4096 data points with features $x$ and labels $y$.
+The trained model takes as input features $x$ and outputs estimated labels $\hat{y}$.
+The model is validated on a validation set of 2048 data points with features $x$ and labels $y$.
+The test set is a much larger set of 105,864 data points with features $x$ and no labels.
+The model is used to make estimated labels $\hat{y}$ in the full test set.
+The validation and test labels are shown in the bottom panels of \figurename~\ref{fig:regression}.
+Importantly, \emph{the training, validation, and test samples are drawn from exactly the same process}, with the same distribution in all properties.
 \begin{figure}[p!]
 \includegraphics[width=0.49\textwidth]{notebooks/data_examples.png}
 \includegraphics[width=0.49\textwidth]{notebooks/training_data.png} \\
@@ -292,5 +299,17 @@ Hello world
 \caption{\sffamily%
 Visualization of the toy regression. \textsl{Top-left:} Random examples of the data vectors $x$, which are one-dimensional images generated from a linear model plus a nonlinearity created by two rectifications. Details of the data generation are given in the text. Each example $x$ is labeled on the right side by the value of its label $y$. \textsl{Top-right:} The training-set labels $y$, plotted against the known parameter $r$, which is not used in the regression (only the vectors $x$ are used). Also shown are solid red circles showing the true mean relationship between $y$ and $r$ in the toy data. Open black squares show the empirical mean relationship measured in bins in the training-set data. \textsl{Bottom-left:} Validation of the trained regression in the validation set, showing that the label estimates $\hat{y}$ are noisy (as expected given the problem set-up) but not strongly biased. \textsl{Bottom-right:} The regression estimates $\hat{y}$ in the very large test set, plotted against the known parameter $r$. Also shown are the same solid red circles and open black squares as in the top-right plot. Black exes show the mean relationship between $\hat{y}$ and $r$. The relationship shown by the exes is very precise but biased far away from the true relationship, unlike the relationship shown by the open squares (measured in the training set alone).\label{fig:regression}}
 \end{figure}
+
+The regression-estimated labels $\hat{y}$ are related to the measured labels $y$ in the validation set with a linear relationship with unit slope and zero intercept.
+They are not precisely estimated, but there is no evidence for bias at the individual-object level.
+
+The true relationship between label $y$ (measured age) and known parameter $r$ (guiding radius) is estimated in a large generated data set by taking means of $y$ in bins of $r$.
+This relationship is shown in \figurename~\ref{fig:regression} with solid red circles.
+The empirical relationship between label $y$ and known parameter $r$ in the training-set data is shown in \figurename~\ref{fig:regression} with open black squares.
+These two relationships are statistically consistent.
+The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figurename~\ref{fig:regression} with black exes.
+The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
+Given the large size of the data set, precision is high: This bias is substantially larger than 20-sigma in the worst data points.
+
 
 \end{document}
