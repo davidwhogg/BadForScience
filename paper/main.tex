@@ -17,6 +17,7 @@
 \usepackage[letterpaper]{geometry}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{url}
 
 % Hogg typesetting issues
 \setlength{\textwidth}{6.00in}
@@ -179,12 +180,6 @@ In physics the epistemology is much more restrictive than it is in ML.
 A physics model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed if it explains some aspects of different data in multiple domains, and if it connects in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
 It is worthy of note here that a successful theory is usually a combination of a simple theory of the latents, and a less simple observation model, which explains how the latents appear in the data space.
 
-HOGG: DROP THIS? Differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
-In the long run, the data are more stable than the fundamental theories of physics:
-Newtonian gravity was replaced with general relativity, and we expect general relativity to be replaced by some kind of quantum gravitational theory.
-At each change, the ontology changes, while the data are stable.
-We are not recommending this, but noting that a robust philosophy of science might be more positively oriented towards the data than standard practice.
-
 \section{Why do we need machine learning in the natural sciences?}
 In this \sectionname{} we give some idea of how and why ML has had such a big impact in the natural sciences, and how and why many scientific projects require ML technologies.
 In most cases, the ML is required on the engineering or execution side of projects that are large-scale in some sense.
@@ -267,6 +262,12 @@ If that is what's required to avoid the bias, then we should just analyze everyt
 
 Hello World!
 
+HOGG: DROP THIS? All differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
+In the long run, the data are more stable than the fundamental theories of physics:
+Newtonian gravity was replaced with general relativity, and we expect general relativity to be replaced by some kind of quantum gravitational theory.
+At each change, the ontology changes, while the data are stable.
+We are not recommending this, but noting that a robust philosophy of science might be more positively oriented towards the data than standard practice.
+
 \paragraph{Acknowledgements:}
 It is a pleasure to thank
   Gaby Contardo (SISSA),
@@ -323,24 +324,36 @@ Importantly, \emph{the training, validation, and test samples are drawn from exa
 \includegraphics[width=0.49\textwidth]{notebooks/validation.png}
 \includegraphics[width=0.49\textwidth]{notebooks/test_data_results.png}
 \caption{\sffamily%
-Visualization of the toy regression. \textsl{Top-left:} Random examples of the data vectors $x$, which are one-dimensional images generated from a linear model plus a nonlinearity created by two rectifications. Details of the data generation are given in the text. Each example $x$ is labeled on the right side by the value of its label $y$. \textsl{Top-right:} The training-set labels $y$, plotted against the known parameter $r$, which is not used in the regression (only the vectors $x$ are used). Also shown are solid red circles showing the true mean relationship between $y$ and $r$ in the toy data. Open black squares show the empirical mean relationship measured in bins in the training-set data. \textsl{Bottom-left:} Validation of the trained regression in the validation set, showing that the label estimates $\hat{y}$ are noisy (as expected given the problem set-up) but not strongly biased. \textsl{Bottom-right:} The regression estimates $\hat{y}$ in the very large test set, plotted against the known parameter $r$. Also shown are the same solid red circles and open black squares as in the top-right plot. Black exes show the mean relationship between $\hat{y}$ and $r$. The relationship shown by the exes is very precise but biased far away from the true relationship, unlike the relationship shown by the open squares (measured in the training set alone).\label{fig:regression}}
+Visualization of the toy regression. \textsl{Top-left:} Random examples of the data vectors $x$, which are one-dimensional images generated from a linear model plus a nonlinearity created by two rectifications. Details of the data generation are given in the text. Each example $x$ is labeled on the right side by the value of its label $y$. \textsl{Top-right:} The training-set labels $y$, plotted against the known parameter $r$, which is not used in the regression (only the vectors $x$ are used). Also shown are solid red circles showing the true mean relationship between $y$ and $r$ in the toy data. Open black squares show the empirical mean relationship measured in bins in the training-set data. \textsl{Bottom-left:} Validation of the trained regression in the validation set, showing that the label estimates $\hat{y}$ are noisy (as expected given the problem set-up) but not strongly biased. \textsl{Bottom-right:} The regression estimates $\hat{y}$ in the very large test set, plotted against the known parameter $r$. Also shown are the same solid red circles and open black squares as in the top-right plot. Black X-shaped symbols show the mean relationship between $\hat{y}$ and $r$. The relationship shown by the Xs is very precise but biased far away from the true relationship, unlike the relationship shown by the open squares (measured in the training set alone).\label{fig:regression}}
 \end{figure}
 
-The regression-estimated labels $\hat{y}$ are related to the measured labels $y$ in the validation set with a linear relationship with unit slope and zero intercept.
-They are not precisely estimated, but there is no evidence for bias at the individual-object level.
+The regression-estimated labels $\hat{y}$ are related to the measured labels $y$ in the held-out validation set with a linear relationship with unit slope and zero intercept.
+They are not precisely estimated to be sure, but there is no evidence for strong bias at the individual-object level.
 
 The true relationship between label $y$ (measured age) and known parameter $r$ (guiding radius) is estimated in a large generated data set by taking means of $y$ in bins of $r$.
 This relationship is shown in \figurename~\ref{fig:regression} with solid red circles.
 The empirical relationship between label $y$ and known parameter $r$ in the training-set data is shown in \figurename~\ref{fig:regression} with open black squares.
 These two relationships are statistically consistent.
-The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figurename~\ref{fig:regression} with black exes.
+The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figurename~\ref{fig:regression} with black X-shaped symbols.
 The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
 Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
 
-HOGG: What to do? Just use the training set!
+In this case, what should the investigator do---the investigator who wants to know the relationship between $y$ (age) and $r$ (guiding radius)?
+The investigator should \emph{just use the training set}.
+Transferring labels to the test set did not help, even though the test set is far larger than the training set.
+The test-set results are very precise (error bars on the X-shaped symbols cannot be visibly shown in \figurename~\ref{fig:regression}), but they are very wrong.
+The training-set results are less precise but unbiased; they are much closer to the truth.
 
-HOGG: Note that none of these problems come from bad data, out-of-distribution, or complexity.
+Indeed, none of the issues here come from out-of-distribution problems or distribution shifts.
+All three data sets (train, validate, and test) are drawn from an identical parent population.
+When distribution shifts are involved (usually the labeled data are the best data, or the earliest, or the easiest to obtain), these kinds of problems only get worse.
 
-HOGG: Link to notebook / github.
+Related to that: The most interesting aspect of this problem is that there is no \emph{wrong} bias:
+The bias introduced from the training set is a correct bias; the training set represents a prior that accords with our beliefs about the test set.
+And yet the population-level inference is biased.
+The averaging of points shown by the X-shaped symbols in \figurename~\ref{fig:regression} is a simple misuse of the regression outputs; that point is trivial.
+However, it is a misuse that is occurring repeatedly in astrophysics with catalogs generated by ML regressions HOGG CITE.
+
+All code (including the data-generating code) used in this toy are available under an open-source license at \url{https://github.com/davidwhogg/BadForScience}.
 
 \end{document}
