@@ -105,7 +105,7 @@ The answer to the question in the title is ``Both.''
   \item We deliver a description of the fundamental \emph{ontology} and \emph{epistemology} of machine learning, and contrast these with the ontologies and epistemologies of the natural sciences.
   \item We elucidate two important and strong statistical biases that are being introduced to the natural sciences by some of the uses of ML in those disciplines. One is a confirmation bias that arises when simulations are replaced or augmented by emulators. Another is a more standard estimator bias that is (possibly enormously) amplified when elements of datasets produced by ML regressions are used in combination or joint analyses.
   \item We show that there are many safe places for the use of ML methods in current natural-science practices, and places where (in the contemporary context) the use of ML methods is effectively \emph{required}. Many of these places are in the operational parts of scientific projects.
-  \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most flexible ML method delivers \emph{the most conservative approach} to the scientific problem. These contexts are causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
+  \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most flexible ML method delivers \emph{the most conservative approach} to the scientific problem. An example is in causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
 \end{itemize}
 
 \section{The ontology and epistemology of machine learning}\label{sec:philosophy}
@@ -188,25 +188,29 @@ The question here is how we will use it safely?
 In this \sectionname{} we elucidate two statistical biases that can be introduced when ML methods are introduced into a natural-science project.
 Neither of these biases can be easily corrected or removed.
 
-\paragraph{Multiplications of uncontrolled priors:}
+\paragraph{Amplifications of uncontrolled biases:}
 The outcomes of ML regressions are label estimates that are conditioned on the input features \emph{and also} on the totality of the training set used to train the regression.
-That conditioning on the training set can lead to strong biases when outputs of regressions are used jointly or in combination to measure a population or sub-population property.
+This is good; the individual-data-point label estimates from the regression are the lowest ``risk'' (in the statistical sense) when they use non-zero bias in the bias--variance trade-off.
+However, the biases that are weak or manageable on an individual data-point basis become strong or unacceptable biases when outputs of regressions are used jointly or in combination to measure a population or sub-population property.
 
-Imagine that you have taken data on millions of stars, and you know the precise ages of only a small fraction of them.
-You can train a ML regression on those for which you know the ages, and label all the other stars with the ages delivered by the trained regression model.
-This will leave you with a million stellar ages, which span lots of ages.
-These ages are not precise, because the age information in the data is small; any age estimates will be very noisy.
-Nonetheless, you train this regression, validate it will held-out training data, and produce a publicly available catalog of stellar ages.
+This problem is demonstrated with a toy example in \appendixname~\ref{app:toy}.
+It is worst when the regression is used to label a large data set or catalog or sample of data,
+and when elements of that data set are used in populations or joint analyses.
+In general, when multiple data point estimates are used jointly, the variances of the estimators average out but the biases remain.
+This is a straightforward point of statistics, but it isn't currently informing most of the practice of ML in the natural sciences.
+For example, HOGG CITES.
 
-Now any investigator can download the catalog, take subsets of stars and ask ``What is the mean age of this subset?''
-For example, they can ask for the mean age for stars at Galactocentric radii $>10$\,kpc, which they expect to be on the younger side (though well within the distribution of ages in your training set).
-The answer they get for this mean age will be \emph{very strongly biased}.
+In Bayesian language, this problem is closely related to the point that when data are to be combined, they should be combined at the likelihood level, not the posterior level.
+Likelihoods are not affected by population-level biases, and potentially produce unbiased estimates.
+Likelihood-based estimators are not usually the lowest-risk estimators, but they can be low- or zero-bias estimates.
+The outputs of regressions are more like posterior-based estimators, affected by the implicit prior set by the training set.
+When they are combined, the implicit prior gets amplified.
 
-Why? When the information in the data is low (as it is by construction in this example), the prior information coming from the training set is comparatively more important.
-And when you combine many measurements into the mean age, you will generally be compounding (rather than cancelling out) the bias.
-One way to see it is in this toy example: HOGG TOY WITH GAUSSIANS.
+In principle, there are fixes for this problem that involve de-biasing the estimates.
+This is not possible in general, because there is not usually enough validation data to accurately assess the bias.
 
-HOGG: Summarize the source of the bias. Counter-act this bias? Use LF-only methods if such can be constructed? Train a joint-star model instead!?
+Finally we note---and demonstrate in \appendixname~\ref{app:toy}---that none of these problems arise from out-of-sample generalization or distribution-shift problems.
+Distribution shifts just tend to make these kinds of problems worse.
 
 \paragraph{Emulator-induced confirmation bias:}
 In many fields in the natural sciences, the fundamental theoretical model is \emph{computational}, meaning that theoretical predictions are made with large computer simulations.
@@ -260,7 +264,7 @@ for conversations over the years related to these arguments.
 }
 
 \clearpage\appendix
-\section{Population-level biases in regression outputs}
+\section{Population-level biases in regression outputs}\label{app:toy}
 A machine-learning (ML) regression learns the best set of parameters (weights and thresholds, for example) $\hat{\theta}$ of a flexible function $f(x;\theta)$ from a training set of labeled data.
 The learned function $f(x;\hat{\theta})$ delivers a predicted or estimated label $\hat{y}$ for any data point with a complete set of features $x$.
 Thus an estimated label $\hat{y}_\ast$ for a data point with features $x_\ast$ has taken information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the parameters $\hat{\theta}$.
@@ -268,6 +272,7 @@ In applications in which regression-estimated labels are used, it matters \emph{
 
 To illustrate these ideas, we construct a toy data analysis.
 The complete toy data set is generated with a process with the following elements:
+HOGG REFORMAT THIS AS AN ALGORITHM WITH THE algorithm PACKAGE.
 \begin{enumerate}\setlength{\itemsep}{0in}
     \item A floating-point value of a known parameter called ``guiding radius'' $r$ is generated in the range $0<r<14$.
     \item A floating-point value of a latent parameter called ``age'' $\eta$ is generated from a Gaussian with unit variance [HOGG CHECK] and mean $13 - (13/14)\,r$
@@ -309,7 +314,10 @@ The empirical relationship between label $y$ and known parameter $r$ in the trai
 These two relationships are statistically consistent.
 The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figurename~\ref{fig:regression} with black exes.
 The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
-Given the large size of the data set, precision is high: This bias is substantially larger than 20-sigma in the worst data points.
+Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is substantially larger than 20-sigma in the worst data points.
 
+HOGG: What to do? Just use the training set!
+
+HOGG: Note that none of these problems come from bad data, out-of-distribution, or complexity.
 
 \end{document}
