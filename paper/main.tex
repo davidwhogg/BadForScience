@@ -31,6 +31,22 @@
 \renewenvironment{abstract}{\paragraph{Abstract:}}{}
 \newcommand{\documentname}{\textsl{Position Paper}}
 \newcommand{\sectionname}{Section}
+\newenvironment{hoggnumerate}
+  {\begin{list}
+    {\arabic{enumii}.}
+    {\usecounter{enumii}
+     %\setlength{\labelwidth}{3em}
+     %\setlength{\labelsep}{0em}
+     \setlength{\itemsep}{0in}
+     \setlength{\parsep}{0in}
+     \setlength{\parskip}{0in}
+     %\setlength{\leftmargin}{1.5cm}
+     %\setlength{\rightmargin}{2cm}
+     %\setlength{\itemindent}{0em} 
+     %\let\makelabel=\makeboxlabel
+    }
+  }
+{\end{list}}
 \pagestyle{myheadings}
 \markboth{foo}{\textcolor{gray}{\textsf{Hogg / Is machine learning good or bad for the natural sciences?}}}
 \linespread{1.08}
@@ -175,11 +191,12 @@ In most cases, the ML is required on the engineering or execution side of projec
 \begin{description}
   \item[Label transfer:] Sometimes a project has informative data on a very large number of objects, but precise labels for only a few, maybe obtained through very careful analysis or external data.
   In this case, if it is extremely expensive to label more objects, a regression can be trained on the labeled data points and then the trained regression used to label
-  \item[Speeding up decisions:]
-  \item[Modeling nuisances:]
   \item[Classification:]
-  \item[Outlier detection:]
+  \item[Speeding up decisions:]
   \item[Speeding up simulations:]
+  \item[Modeling nuisances:]
+  \item[Outlier detection:]
+  \item[Making discoveries?]
 \end{description}
 The short summary is that we need ML in the natural sciences; we can't live without it.
 The question here is how we will use it safely?
@@ -188,7 +205,7 @@ The question here is how we will use it safely?
 In this \sectionname{} we elucidate two statistical biases that can be introduced when ML methods are introduced into a natural-science project.
 Neither of these biases can be easily corrected or removed.
 
-\paragraph{Amplifications of uncontrolled biases:}
+\paragraph{Amplifications of training-set biases:}
 The outcomes of ML regressions are label estimates that are conditioned on the input features \emph{and also} on the totality of the training set used to train the regression.
 This is good; the individual-data-point label estimates from the regression are the lowest ``risk'' (in the statistical sense) when they use non-zero bias in the bias--variance trade-off.
 However, the biases that are weak or manageable on an individual data-point basis become strong or unacceptable biases when outputs of regressions are used jointly or in combination to measure a population or sub-population property.
@@ -196,18 +213,20 @@ However, the biases that are weak or manageable on an individual data-point basi
 This problem is demonstrated with a toy example in \appendixname~\ref{app:toy}.
 It is worst when the regression is used to label a large data set or catalog or sample of data,
 and when elements of that data set are used in populations or joint analyses.
-In general, when multiple data point estimates are used jointly, the variances of the estimators average out but the biases remain.
-This is a straightforward point of statistics, but it isn't currently informing most of the practice of ML in the natural sciences.
+In general, when multiple data point estimates are used jointly, the variance-induced offsets of the estimators average out but the bias-induced offsets remain fixed.
+This is a straightforward point of statistics---this is not news---but it isn't currently informing most of the practice of ML in the natural sciences.
 For example, HOGG CITES.
+
+In principle, there are fixes for this problem that involve de-biasing the estimates.
+This is not possible in general, because there is not usually enough validation data to accurately assess the bias.
 
 In Bayesian language, this problem is closely related to the point that when data are to be combined, they should be combined at the likelihood level, not the posterior level.
 Likelihoods are not affected by population-level biases, and potentially produce unbiased estimates.
 Likelihood-based estimators are not usually the lowest-risk estimators, but they can be low- or zero-bias estimates.
 The outputs of regressions are more like posterior-based estimators, affected by the implicit prior set by the training set.
 When they are combined, the implicit prior gets amplified.
-
-In principle, there are fixes for this problem that involve de-biasing the estimates.
-This is not possible in general, because there is not usually enough validation data to accurately assess the bias.
+Most ML regressions are not capable of generating or emulating likelihoods.
+There are interesting approaches in development to replace regressions with generative models that can produce likelihoods HOGG CITE THINGS.
 
 Finally we note---and demonstrate in \appendixname~\ref{app:toy}---that none of these problems arise from out-of-sample generalization or distribution-shift problems.
 Distribution shifts just tend to make these kinds of problems worse.
@@ -271,19 +290,21 @@ Thus an estimated label $\hat{y}_\ast$ for a data point with features $x_\ast$ h
 In applications in which regression-estimated labels are used, it matters \emph{how much information} is coming from the individual data-point's features and how much from the original training set.
 
 To illustrate these ideas, we construct a toy data analysis.
-The complete toy data set is generated with a process with the following elements:
-HOGG REFORMAT THIS AS AN ALGORITHM WITH THE algorithm PACKAGE.
-\begin{enumerate}\setlength{\itemsep}{0in}
+This toy will make a general point, but it has a decidedly astronomical feel to it.
+The complete toy data set is generated by a process with the algorithm below.
+This algorithm makes references to objects $\xi_\eta$ and $\xi_\zeta$ which are generated prior to the start.
+\begin{hoggnumerate}
     \item A floating-point value of a known parameter called ``guiding radius'' $r$ is generated in the range $0<r<14$.
-    \item A floating-point value of a latent parameter called ``age'' $\eta$ is generated from a Gaussian with unit variance [HOGG CHECK] and mean $13 - (13/14)\,r$
+    \item A floating-point value of a latent parameter called ``age'' $\eta$ is generated from a Gaussian with mean $14 - r$ and variance 4.
     \item The point is discarded if the age is outside the range $0<\eta<13$. If the point is not discarded:
-    \item A $K$-dimensional latent vector $\zeta$ with $K=14$ [HOGG CHECK] is generated from a zero-mean, unit-variance Gaussian.
-    \item A $M$-dimensional latent vector $\xi$ with $M=110$ is created by $\xi = \xi_\eta\,\eta + \xi_\zeta\cdot\zeta$, where $\xi_\eta$ is a $M$-vector and $\xi_\zeta$ is a $M\times K$ matrix. The elements of $\xi_\eta$ and $\xi_\zeta$ were drawn (before the start) from a Gaussian with zero mean and variance $0.00046$ and $0.071$ respectively [HOGG CHECK].
-    \item A label $y$ called ``measured age'' is generated from a Gaussian with unit variance [HOGG CHECK] and mean $\eta$.
-    \item A $M$-dimensional feature vector $x$ called ``the data'' is generated from a Gaussian with variance $0.0025$ and a mean set by taking $1 + \xi$ and rectifying all pixels to lie in the range between zero and unity.
-\end{enumerate}
+    \item A $K$-dimensional latent vector $\zeta$ with $K=14$ is generated from a Gaussian with zero mean and variance 1.
+    \item A $M$-dimensional latent vector $\xi$ with $M=110$ is created by $\xi = \xi_\eta\,\eta + \xi_\zeta\cdot\zeta$, where $\xi_\eta$ is a $M$-vector and $\xi_\zeta$ is a $M\times K$ matrix.
+    The elements of $\xi_\eta$ and $\xi_\zeta$ were drawn (before the start) from Gaussians with zero mean and variances $0.01/K$ and $1/K$ respectively.
+    \item A rectified latent vector $\tilde{\xi}$ is created by taking $1 + \xi$ and rectifying all pixels to lie in the range $[0, 1]$.
+    \item A $M$-dimensional feature vector $x$ called ``the data'' is generated from a Gaussian with mean $\tilde{\xi}$ and variance $0.0025$.
+    \item A label $y$ called ``measured age'' is generated from a Gaussian with mean $\eta$ and variance 1.
+\end{hoggnumerate}
 The data generated this way are shown in the top panels of \figurename~\ref{fig:regression}.
-This toy will make a very general point, but it has a decidedly astronomical feel to it.
 The data contain a non-trivial relationship between label $y$ (measured age) $y$ and known parameter $r$ (guiding radius).
 This relationship is shown in \figurename~\ref{fig:regression}.
 It isn't precisely linear because of the censoring of data points with latent ages outside the range $0<\eta<13$.
@@ -314,10 +335,12 @@ The empirical relationship between label $y$ and known parameter $r$ in the trai
 These two relationships are statistically consistent.
 The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figurename~\ref{fig:regression} with black exes.
 The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
-Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is substantially larger than 20-sigma in the worst data points.
+Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
 
 HOGG: What to do? Just use the training set!
 
 HOGG: Note that none of these problems come from bad data, out-of-distribution, or complexity.
+
+HOGG: Link to notebook / github.
 
 \end{document}
