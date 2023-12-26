@@ -79,7 +79,7 @@
   Here we identify locations for ML in the natural sciences where the ontology and epistemology are valuable.
   For example, when an expressive machine-learning model is used in a causal inference to represent the effects of confounders, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of ML can sometimes make the results more trustworthy.
   We also show that the there are contexts in which the introduction of ML introduces strong, unwanted statistical biases.
-  For one, when expressive models are used to emulate physical (or first-principles) simulations, they introduce strong confirmation biases.
+  For one, when ML models are used to emulate physical (or first-principles) simulations, they introduce strong confirmation biases.
   For another, when expressive regressions are used to label datasets, those labels cannot be used in downstream joint analyses without taking on uncontrolled biases.
   These remarks are intended to apply to all of the natural sciences, but most of the specific examples are in the astrophysics domain.
 \end{abstract}
@@ -290,10 +290,13 @@ It is a pleasure to thank
   Gaby Contardo (SISSA),
   Jennifer Hill (NYU),
   Adrian Price-Whelan (Flatiron),
+  Hans-Walter Rix (MPIA),
   Sam Roweis (deceased),
   Bernhard Sch\"olkopf (MPI-IS), and
   Soledad Villar (JHU)
-for conversations over the years related to these arguments.
+for conversations over the years related to these arguments, and
+  Vedant Chandra (Harvard)
+for discussions of the bias in regression outputs.
 
 {\raggedright
 \bibliography{ml_in_astro}
@@ -302,9 +305,10 @@ for conversations over the years related to these arguments.
 
 \clearpage\appendix
 \section{Population-level biases in regression outputs}\label{app:toy}
-A machine-learning (ML) regression learns the best set of parameters (weights and thresholds, for example) $\hat{\theta}$ of an expressive function $f(x;\theta)$ from a training set of labeled data.
+A machine-learning (ML) regression learns the best (that it can find) value of a list or vector $\hat{\theta}$ of parameters (weights and thresholds, for example) of an expressive function $f(x;\theta)$ that takes as input a feature list or vector $x$ and outputs a label estimate $y$.
+The parameters $\hat{\theta}$ are learned from a training set of labeled data, which is a set of $(x, y)$ pairs.
 The learned function $f(x;\hat{\theta})$ delivers a predicted or estimated label $\hat{y}$ for any data point with a complete set of features $x$.
-Thus an estimated label $\hat{y}_\ast$ for a data point with features $x_\ast$ has taken information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the parameters $\hat{\theta}$.
+Thus a particular estimated label $\hat{y}_\ast$ for a particular data point with features $x_\ast$ obtains information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the parameters $\hat{\theta}$.
 In applications in which regression-estimated labels are used, it matters \emph{how much information} is coming from the individual data-point's features and how much from the original training set.
 
 To illustrate these ideas, we construct a toy data analysis.
@@ -355,6 +359,8 @@ The empirical relationship in the test-set data between the estimated label $\ha
 The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
 
 HOGG: TAKE A PARAGRAPH TO EXPLAIN THIS CLAIM: Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
+
+HOGG: COMMENT OR SHOW that the bias goes down as the information in the features goes up (relative to the information in the training-set distribution (the prior)).
 
 In this case, what should the investigator do---the investigator who wants to know the relationship between $y$ (age) and $r$ (guiding radius)?
 The investigator should \emph{just use the training set}.
