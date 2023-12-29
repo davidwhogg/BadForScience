@@ -9,6 +9,8 @@
 % Style notes:
 % ------------
 % - Be very careful about the SUBJECT of sentences. Is it ML that is bad? Is it the practice that is bad? Is it the practitioner that is bad?
+% - Should we use NS for natural science?
+% - How many authors are there? Should we switch to first-person singular?
 % - [more here]
 
 \documentclass[11pt]{article}
@@ -138,7 +140,19 @@ In addition to methods like convolutional neural networks \cite{cnn}, multi-laye
 Feel free to personally take any more restrictive definition.
 Our comments will apply to everything in the larger class.
 
-\paragraph{Ontology:}
+\paragraph{What is natural science?}
+For the purposes of this \documentname, we will employ a restrictive definition of natural science.
+For us, the natural sciences are the sciences that study the natural world, with the primary aim of \emph{understanding}.
+Examples include physics, chemistry, biology, Earth science, ecology, and so on.
+For our purposes, the natural sciences are about understanding observed phenomena, unifying knowledge, making predictions for new experiments and observations.
+Natural-science questions include things like: How did our Solar System form? Or how do cells differentiate as the embryo grows? Or what causes the jet stream?
+
+For the purposes of this \documentname{} we will exclude more engineering-oriented questions such as: What protein sequences might be important for the treatment of diabetes? Or where in Canada might there be new uranium deposits? Or what kinds of catalytic surfaces might help turn biomass into biofuel?
+This is a bit unfair!
+We are excluding these kinds of questions in part because it is obvious that ML methods \emph{can} serve important purposes in such problems.
+That will re-emerge as a theme, below.
+
+\paragraph{Ontologies:}
 Unsupervised ML methods deliver descriptions or compressions of data.
 Supervised ML methods find relationships between data (features) and data (labels).
 In both cases, the methods are judged on their capability to accurately describe the data.
@@ -153,10 +167,16 @@ The fact that it is impossible to find the global optimum---and the fact that in
 The use of early stopping \cite{early_stop} and drop-outs \cite{dropout} to stabilize optimization strengthens this point.
 Any practitioner using a 40-layer network can trivially (and without analysis) switch to a 42-layer, despite the fact that (from a functional point of view), this substantially changes the model capacity.
 
-Models are deemed stably optimized and useful not if the latent space is stable, but rather if the predictions for held-out data are stable.
+In ML, models are deemed stably optimized and useful not if the latent space---the joint values of all the weights and biases---is stable, but rather if the predictions for held-out data are stable.
 Thus it is the data that exist in ML contexts, not the latent parameters.
 
-\paragraph{Epistemology:}
+In contrast, the ontologies of the natural sciences contain far more things than just the data.
+In physics, for example, 
+not only do the data exist, but so do forces, energies, momenta, charges, spacetime, wave functions, virtual particles, and much more.
+These entities are judged to exist in part because they are involved in the latent structure of the successful theories; almost none of them are direct observables.
+The most important discoveries in the natural sciences are discoveries of latent structure: Natural selection as an explanation for the differentiated properties of species \cite{natural_selection}, for example, or the elemental composition of the Sun \cite{sun_composition}, or the quarks and gluons that make up the proton \cite{proton_substructure}.
+
+\paragraph{Epistemologies:}
 A trained ML model is deemed successful or correct if \emph{it performs well on held-out training data}.
 This epistemological position is related strongly to the ontological position:
 If only the data exist, then the success of a model is judged only in terms of the data it describes.
@@ -166,19 +186,22 @@ This literature shows us, in dramatic ways, that ML methods are not doing what w
 And yet, these attacks do not suggest (to most practitioners of ML) that the methods are wrong or require revision.
 Even the responses to attacks have responded in ways that involve augmentation of data \cite{adversarial_training}, such that the vulnerability to attack is lessened without compromising the fundamental epistemological point that performance on data is the primary standard of truth.
 
-A critic of our epistemological claim could point to the large literature on out-of-sample generalization, transfer learning \cite{transfer}, or the more grand contemporary idea of foundation models \cite{foundation}.
+A critic of our ML epistemology claim could point to the large literature on out-of-sample generalization, transfer learning \cite{transfer}, or the more grand contemporary idea of foundation models \cite{foundation}.
 But even in these contexts, models are deemed successful when they explain new or held-out data; the latent structure of the models is not a primary consideration when the validity of the model is in question.
 
-\paragraph{Natural sciences:}
-Ontologies and epistemologies are somewhat different in different scientific fields---and among different practitioners---but in almost no natural-scientific context do the ontology and epistemology match those of ML.
+Another critic might point to the literatures on interpretable ML \cite{interpretable} and explainable ML \cite{explainable}.
+In these ML subfields, in some cases, attempts are made to understand the internal structure or the behavior of the ML model.
+There are not enormous successes here, but if there were, these might be subfields in which the epistemology of ML gets more complex; maybe in the future some ML models will have to perform well on data \emph{and} be explainable in some important sense.
+At present this isn't part of any ML epistemology.
 
-In physics, for example, the ontology is much broader than it is in ML.
-Not only do the data exist, but so do forces, energies, momenta, charges, spacetime, wave functions, virtual particles, and much more.
-These entities are judged to exist in part because they are involved in the latent structure of the successful theories; almost none of them are direct observables.
-
-In physics the epistemology is much more restrictive than it is in ML.
-A physics model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed if it explains some aspects of different data in multiple domains, and if it connects in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
-It is worthy of note here that a successful theory is usually a combination of a simple theory of the latents, and a less simple observation model, which explains how the latents appear in the data space.
+In the natural sciences, in contrast, the epistemologies are much more restrictive and much more demanding than they are in ML.
+The detailed epistemological framework depends on the natural-science field, and even on the practitioner within the field.
+However, in all cases, it is more demainding:
+A theory or explanation has to do much more than just explain the data in order to be accepted as true.
+In physics for example, a model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed not just if it explains observed data.
+It must explain data in multiple domains, and it must also connect in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
+(It is worthy of note here that a successful theory in the natural sciences is usually a combination of a more fundamental theory of the latents, and a less fundamental or auxiliary observation model, which explains how the latents appear in or affect the observable data \cite{auxiliary}.)
+General relativity \cite{gr} was adopted not primarily because it explained anomalous data (although it did explain some); it was adopted because it had a beautiful structure, it resolved conceptual paradoxes in the pre-existing theory of gravity, and it was consistent with emerging ideas of field theory and geometry.
 
 \section{Why do we need machine learning in the natural sciences?}
 In this \sectionname{} we give some idea of how and why ML has had such a big impact in the natural sciences, and how and why many scientific projects require ML technologies.
@@ -187,9 +210,9 @@ In most cases, the ML is required on the engineering or execution side of projec
   \item[Label transfer:] Sometimes a project has informative data on a very large number of objects, but precise labels for only a few, maybe obtained through very careful analysis or external data.
   In this case, if it is extremely expensive to label more objects, a regression can be trained on the few labeled data points and then the trained regression used to label all the rest.
   Below (\sectionname~\ref{sec:bad}) we argue that this is not an advisable use of ML in the natural sciences if the expectation is that the regression-generated labels are going to be used in downstream scientific projects.
-  \item[Classification:] 
+  \item[Classification:] This is the same use case as label transfer, but in the specific case in which the labels are drawn from a finite (small, actually) set of discrete values.
   \item[Speeding up decisions:] Many scientific projects must make decisions very fast in real time.
-  The most extreme examples of this are in particle physics, where detectors (like \textsl{Atlas} \cite{atlas}) must decide whether to trigger a data-saving event in a tiny fraction of second.
+  The most extreme examples of this are in particle physics, where detectors (such as the \textsl{Atlas} Experiment \cite{atlas} at the \textsl{Large Hadron Collider} \cite{lhc}) must decide whether to trigger a data-saving event in a tiny fraction of second.
   It is often the case that trained ML classifiers can reproduce the selection boundaries as well---or nearly as well---as first-principles models, but with far less computation.
   \item[Speeding up simulations:] In much of the natural sciences, the theory in play is a computation or simulation or digital twin.
   These simulations tend to be very computationally expensive, since they often span large ranges of spatial or time scales.
@@ -205,11 +228,11 @@ In most cases, the ML is required on the engineering or execution side of projec
   There are approaches along the direction of symbolic regression \cite{symbolic1, symbolic2}, and there are approaches along the lines of foundation models \cite{foundation1, foundation2}.
 \end{description}
 The short summary is that we need ML in the natural sciences; we can't live without it.
-The question here is how we will use it safely?
+The question here is---given the restrictive ontology and loose epistemology---how we will use it safely?
 
 \section{When is machine learning bad for natural science?}\label{sec:bad}
-In this \sectionname{} we elucidate two statistical biases that can be introduced when ML methods are introduced into a natural-science project.
-Neither of these biases can be easily corrected or removed.
+In this \sectionname{} we elucidate two statistical biases that can be introduced into a natural-sciences project when ML methods are introduced.
+Neither of these biases can be easily corrected or removed, to our knowledge.
 
 \paragraph{Amplifications of training-set biases:}
 The outcomes of ML regressions are label estimates that are conditioned on the input features \emph{and also} on the totality of the training set used to train the regression.
@@ -277,13 +300,37 @@ HOGG: BE SURE to say what is in common across all of these examples. They are jo
 
 \section{Discussion}\label{sec:discussion}
 
-Hello World!
+We hope we have clearly answered the question in the title with the response ``Both!''
+Machine learning (ML) is a reality for the natural sciences:
+We need it for speed and scale in many contexts in many contemporary scientific projects, where instrument bandwidths, data volumes, assay parallelization, experimental automation, and scientific ambitions are all growing.
+It is also the case that PhD students and practitioners in the natural sciences want to---or even need to---learn ML practices to have useful and transferable skills.
+ML is here, and it is here to stay.
 
-HOGG: DROP THIS? All differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
+That said, there is a certain amount of hype in this area, and we are seeing scientists ``move fast and break things'' \cite{zuck} all over the place.
+If anything, this \documentname{} represents a call to slow down and think more.
+ML tools are incredibly powerful, if we put them to use in the right places in the natural sciences.
+
+There is a famous ancient quotation about ``the unreasonable effectiveness of mathematics in physics'' \cite{weiner_maybe}.
+Mathematics has been pursued (in many cases) for abstract reasons of beauty and technical challenge, but it has ended up creating a language for many of the natural sciences.
+Similarly, we could coin a phrase about \emph{the unreasonable effectiveness of machine learning in the natural sciences}.
+It's unreasonable because ML methods were designed---and, importantly, developed, engineered, and optimized---to solve problems for commerce.
+The most remarkable ML systems have been driven by critical industrial questions such as: Which advertisement should I display on this web search result? What direction should I steer this automobile? How could I make a chair that looks like an avocado? And which online videos contain kittens?
+In some sense it is remarkable that there is \emph{any} overlap between these technologies and the things we need in scientific domains.
+
+But that said, the industrial successes of ML can also be misleading.
+The fact that big ML models can solve countless problems in business does not mean that all areas of the natural sciences will be helped by the introduction of ML.
+You do not have to \emph{understand} your customers (nor their videos) in order to make plenty of revenue off of them; in the natural sciences, it is understanding, not revenue, that we seek.
+
+Finally, we make a philosophical comment:
+In physics---and in most of the natural sciences we believe---the same phenomena can be explained with many qualitatively different theories \cite{philosphy_of_physics}; mathematical theories are not usually unique.
+In the same way (as we noted above), ML models contain massive degeneracies, and even different architectures can lead to near-identical predictions after training on the same training data.
+Does this lead to a philosophical connection between ML and the natural sciences?
+We have argued elsewhere \cite{hogg} that the degeneracies in the natural sciences undermine \emph{realism} or the belief in the literal truth of the latent theories or objects of physics.
+There is an argument to be made that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
 In the long run, the data are more stable than the fundamental theories of physics:
 Newtonian gravity was replaced with general relativity, and we expect general relativity to be replaced by some kind of quantum gravitational theory.
 At each change, the ontology changes, while the data are stable.
-We are not recommending this, but noting that a robust philosophy of science might be more positively oriented towards the data than standard practice.
+We are not recommending anything (yet), we are merely noting that a robust philosophy of natural science might be more positively oriented towards the data than current standard practice.
 
 \paragraph{Acknowledgements:}
 It is a pleasure to thank
