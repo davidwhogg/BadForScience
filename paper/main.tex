@@ -1,6 +1,6 @@
 % To do:
 % ------
-% - Write an outline.
+% - Change it to be about PHYSICS rather than natural science?
 % - Fill in the outline.
 % - Publish on the arXiv.
 % - format for ICML Position Paper and submit.
@@ -9,6 +9,8 @@
 % Style notes:
 % ------------
 % - Be very careful about the SUBJECT of sentences. Is it ML that is bad? Is it the practice that is bad? Is it the practitioner that is bad?
+% - Should we use NS for natural science?
+% - How many authors are there? Should we switch to first-person singular?
 % - [more here]
 
 \documentclass[11pt]{article}
@@ -77,10 +79,10 @@
   However, ML has a strong ontology---in which only the data exist---and a strong epistemology---in which a model is considered good if it performs well on held-out training data.
   These philosophies are in strong conflict with both standard practices and key philosophies in the natural sciences.
   Here we identify locations for ML in the natural sciences where the ontology and epistemology are valuable.
-  For example, when a flexible machine-learning model is used in a causal inference to represent the effects of confounders, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of ML can sometimes make the results more trustworthy.
+  For example, when an expressive machine-learning model is used in a causal inference to represent the effects of confounders, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of ML can sometimes make the results more trustworthy.
   We also show that the there are contexts in which the introduction of ML introduces strong, unwanted statistical biases.
-  For one, when flexible models are used to emulate physical (or first-principles) simulations, they introduce strong confirmation biases.
-  For another, when flexible regressions are used to make datasets, the elements of those datasets cannot be used in joint analyses without taking on uncontrolled biases.
+  For one, when ML models are used to emulate physical (or first-principles) simulations, they introduce strong confirmation biases.
+  For another, when expressive regressions are used to label datasets, those labels cannot be used in downstream joint analyses without taking on uncontrolled biases.
   These remarks are intended to apply to all of the natural sciences, but most of the specific examples are in the astrophysics domain.
 \end{abstract}
 
@@ -122,7 +124,7 @@ The answer to the question in the title is ``Both.''
   \item We deliver a description of the fundamental \emph{ontology} and \emph{epistemology} of machine learning, and contrast these with the ontologies and epistemologies of the natural sciences.
   \item We elucidate two important and strong statistical biases that are being introduced to the natural sciences by some of the uses of ML in those disciplines. One is a confirmation bias that arises when simulations are replaced or augmented by emulators. Another is a more standard estimator bias that is (possibly enormously) amplified when elements of datasets produced by ML regressions are used in combination or joint analyses.
   \item We show that there are many safe places for the use of ML methods in current natural-science practices, and places where (in the contemporary context) the use of ML methods is effectively \emph{required}. Many of these places are in the operational parts of scientific projects.
-  \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most flexible ML method delivers \emph{the most conservative approach} to the scientific problem. An example is in causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
+  \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most expressive ML method delivers \emph{the most conservative approach} to the scientific problem. An example is in causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
 \end{itemize}
 
 \section{The ontology and epistemology of machine learning}\label{sec:philosophy}
@@ -138,7 +140,19 @@ In addition to methods like convolutional neural networks \cite{cnn}, multi-laye
 Feel free to personally take any more restrictive definition.
 Our comments will apply to everything in the larger class.
 
-\paragraph{Ontology:}
+\paragraph{What is natural science?}
+For the purposes of this \documentname, we will employ a restrictive definition of natural science.
+For us, the natural sciences are the sciences that study the natural world, with the primary aim of \emph{understanding}.
+Examples include physics, chemistry, biology, Earth science, ecology, and so on.
+For our purposes, the natural sciences are about understanding observed phenomena, unifying knowledge, making predictions for new experiments and observations.
+Natural-science questions include things like: How did our Solar System form? Or how do cells differentiate as the embryo grows? Or what causes the jet stream?
+
+For the purposes of this \documentname{} we will exclude more engineering-oriented questions such as: What protein sequences might be important for the treatment of diabetes? Or where in Canada might there be new uranium deposits? Or what kinds of catalytic surfaces might help turn biomass into biofuel?
+This is a bit unfair!
+We are excluding these kinds of questions in part because it is obvious that ML methods \emph{can} serve important purposes in such problems.
+That will re-emerge as a theme, below.
+
+\paragraph{Ontologies:}
 Unsupervised ML methods deliver descriptions or compressions of data.
 Supervised ML methods find relationships between data (features) and data (labels).
 In both cases, the methods are judged on their capability to accurately describe the data.
@@ -153,10 +167,16 @@ The fact that it is impossible to find the global optimum---and the fact that in
 The use of early stopping \cite{early_stop} and drop-outs \cite{dropout} to stabilize optimization strengthens this point.
 Any practitioner using a 40-layer network can trivially (and without analysis) switch to a 42-layer, despite the fact that (from a functional point of view), this substantially changes the model capacity.
 
-Models are deemed stably optimized and useful not if the latent space is stable, but rather if the predictions for held-out data are stable.
+In ML, models are deemed stably optimized and useful not if the latent space---the joint values of all the weights and biases---is stable, but rather if the predictions for held-out data are stable.
 Thus it is the data that exist in ML contexts, not the latent parameters.
 
-\paragraph{Epistemology:}
+In contrast, the ontologies of the natural sciences contain far more things than just the data.
+In physics, for example, 
+not only do the data exist, but so do forces, energies, momenta, charges, spacetime, wave functions, virtual particles, and much more.
+These entities are judged to exist in part because they are involved in the latent structure of the successful theories; almost none of them are direct observables.
+The most important discoveries in the natural sciences are discoveries of latent structure: Natural selection as an explanation for the differentiated properties of species \cite{natural_selection}, for example, or the elemental composition of the Sun \cite{sun_composition}, or the quarks and gluons that make up the proton \cite{proton_substructure}.
+
+\paragraph{Epistemologies:}
 A trained ML model is deemed successful or correct if \emph{it performs well on held-out training data}.
 This epistemological position is related strongly to the ontological position:
 If only the data exist, then the success of a model is judged only in terms of the data it describes.
@@ -166,39 +186,53 @@ This literature shows us, in dramatic ways, that ML methods are not doing what w
 And yet, these attacks do not suggest (to most practitioners of ML) that the methods are wrong or require revision.
 Even the responses to attacks have responded in ways that involve augmentation of data \cite{adversarial_training}, such that the vulnerability to attack is lessened without compromising the fundamental epistemological point that performance on data is the primary standard of truth.
 
-A critic of our epistemological claim could point to the large literature on out-of-sample generalization, transfer learning \cite{transfer}, or the more grand contemporary idea of foundation models \cite{foundation}.
+A critic of our ML epistemology claim could point to the large literature on out-of-sample generalization, transfer learning \cite{transfer}, or the more grand contemporary idea of foundation models \cite{foundation}.
 But even in these contexts, models are deemed successful when they explain new or held-out data; the latent structure of the models is not a primary consideration when the validity of the model is in question.
 
-\paragraph{Natural sciences:}
-Ontologies and epistemologies are somewhat different in different scientific fields---and among different practitioners---but in almost no natural-scientific context do the ontology and epistemology match those of ML.
+Another critic might point to the literatures on interpretable ML \cite{interpretable} and explainable ML \cite{explainable}.
+In these ML subfields, in some cases, attempts are made to understand the internal structure or the behavior of the ML model.
+There are not enormous successes here, but if there were, these might be subfields in which the epistemology of ML gets more complex; maybe in the future some ML models will have to perform well on data \emph{and} be explainable in some important sense.
+At present this isn't part of any ML epistemology.
 
-In physics, for example, the ontology is much broader than it is in ML.
-Not only do the data exist, but so do forces, energies, momenta, charges, spacetime, wave functions, virtual particles, and much more.
-These entities are judged to exist in part because they are involved in the latent structure of the successful theories; almost none of them are direct observables.
-
-In physics the epistemology is much more restrictive than it is in ML.
-A physics model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed if it explains some aspects of different data in multiple domains, and if it connects in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
-It is worthy of note here that a successful theory is usually a combination of a simple theory of the latents, and a less simple observation model, which explains how the latents appear in the data space.
+In the natural sciences, in contrast, the epistemologies are much more restrictive and much more demanding than they are in ML.
+The detailed epistemological framework depends on the natural-science field, and even on the practitioner within the field.
+However, in all cases, it is more demainding:
+A theory or explanation has to do much more than just explain the data in order to be accepted as true.
+In physics for example, a model---which, as we note, is almost always a model of latent structure---is judged to be good or strongly confirmed not just if it explains observed data.
+It must explain data in multiple domains, and it must also connect in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
+(It is worthy of note here that a successful theory in the natural sciences is usually a combination of a more fundamental theory of the latents, and a less fundamental or auxiliary observation model, which explains how the latents appear in or affect the observable data \cite{auxiliary}.)
+General relativity \cite{gr} was adopted not primarily because it explained anomalous data (although it did explain some); it was adopted because it had a beautiful structure, it resolved conceptual paradoxes in the pre-existing theory of gravity, and it was consistent with emerging ideas of field theory and geometry.
 
 \section{Why do we need machine learning in the natural sciences?}
 In this \sectionname{} we give some idea of how and why ML has had such a big impact in the natural sciences, and how and why many scientific projects require ML technologies.
 In most cases, the ML is required on the engineering or execution side of projects that are large-scale in some sense.
 \begin{description}
   \item[Label transfer:] Sometimes a project has informative data on a very large number of objects, but precise labels for only a few, maybe obtained through very careful analysis or external data.
-  In this case, if it is extremely expensive to label more objects, a regression can be trained on the labeled data points and then the trained regression used to label
-  \item[Classification:]
-  \item[Speeding up decisions:]
-  \item[Speeding up simulations:]
-  \item[Modeling nuisances:]
-  \item[Outlier detection:]
-  \item[Making discoveries?]
+  In this case, if it is extremely expensive to label more objects, a regression can be trained on the few labeled data points and then the trained regression used to label all the rest.
+  Below (\sectionname~\ref{sec:bad}) we argue that this is not an advisable use of ML in the natural sciences if the expectation is that the regression-generated labels are going to be used in downstream scientific projects.
+  \item[Classification:] This is the same use case as label transfer, but in the specific case in which the labels are drawn from a finite (small, actually) set of discrete values.
+  \item[Speeding up decisions:] Many scientific projects must make decisions very fast in real time.
+  The most extreme examples of this are in particle physics, where detectors (such as the \textsl{Atlas} Experiment \cite{atlas} at the \textsl{Large Hadron Collider} \cite{lhc}) must decide whether to trigger a data-saving event in a tiny fraction of second.
+  It is often the case that trained ML classifiers can reproduce the selection boundaries as well---or nearly as well---as first-principles models, but with far less computation.
+  \item[Speeding up simulations:] In much of the natural sciences, the theory in play is a computation or simulation or digital twin.
+  These simulations tend to be very computationally expensive, since they often span large ranges of spatial or time scales.
+  ML regressions can be trained to emulate the simulations, or patch up low-resolution simulations to higher resolutions.
+  HOGG: THERE ARE MANY different approaches to emulation; summarize here?
+  Below (\sectionname~\ref{sec:bad}) we argue that the introduction of ML-based emulators can introduce unwanted confirmation bias.
+  \item[Modeling nuisances:] In most natural-science domains, the quantities of interest are not directly observable, but rather the model or prediction for the data is a combination of the theory of relevance plus auxilliary theories of foregrounds, backgrounds, instrumentation, and noise sources.
+  When the goal is for these nuisances to be effectively modeled but not necessarily understood in detail, ML approaches can be effective and (as we argue in \sectionname~\ref{sec:good}) even conservative.
+  \item[Outlier detection:] In many of the sciences, discovery of new or previously unknown phenomena or objects can be of great importance.
+  A recent example in astronomy is the discovery of fast radio bursts \cite{grbs}, which started as nuisances in imaging projects and have turned out to be interesting astrophysical objects.
+  Since expressive unsupervised ML methods can describe accurately a complex distribution of data, they can also be used to find rare data points that are unlike any elements of the training data.
+  \item[Making discoveries?] There is a new hope in the sciences that sufficiently trained or constrained models might lead to new insights about scientific theories or might effectively make fundamental discoveries.
+  There are approaches along the direction of symbolic regression \cite{symbolic1, symbolic2}, and there are approaches along the lines of foundation models \cite{foundation1, foundation2}.
 \end{description}
 The short summary is that we need ML in the natural sciences; we can't live without it.
-The question here is how we will use it safely?
+The question here is---given the restrictive ontology and loose epistemology---how we will use it safely?
 
 \section{When is machine learning bad for natural science?}\label{sec:bad}
-In this \sectionname{} we elucidate two statistical biases that can be introduced when ML methods are introduced into a natural-science project.
-Neither of these biases can be easily corrected or removed.
+In this \sectionname{} we elucidate two statistical biases that can be introduced into a natural-sciences project when ML methods are introduced.
+Neither of these biases can be easily corrected or removed, to our knowledge.
 
 \paragraph{Amplifications of training-set biases:}
 The outcomes of ML regressions are label estimates that are conditioned on the input features \emph{and also} on the totality of the training set used to train the regression.
@@ -216,7 +250,8 @@ In principle, there are fixes for this problem that involve de-biasing the estim
 This is not possible in general, because there is not usually enough validation data to accurately assess the bias.
 
 In Bayesian language, this problem is closely related to the point that when data are to be combined, they should be combined at the likelihood level, not the posterior level.
-Likelihoods are not affected by population-level biases, and potentially produce unbiased estimates.
+Likelihoods are not affected by population-level biases.
+Likelihoods can produce unbiased point estimates.
 Likelihood-based estimators are not usually the lowest-risk estimators, but they can be low- or zero-bias estimates.
 The outputs of regressions are more like posterior-based estimators, affected by the implicit prior set by the training set.
 When they are combined, the implicit prior gets amplified.
@@ -225,6 +260,8 @@ There are interesting approaches in development to replace regressions with gene
 
 Finally we note---and demonstrate in \appendixname~\ref{app:toy}---that none of these problems arise from out-of-sample generalization or distribution-shift problems.
 Distribution shifts just tend to make these kinds of problems worse.
+
+HOGG: DO WE CLEARLY SAY: ML estimates are always biased, maximum-likelihood estimates sometimes aren't. That's important if you are releasing data for downstream re-use.
 
 \paragraph{Emulator-induced confirmation bias:}
 In many fields in the natural sciences, the fundamental theoretical model is \emph{computational}, meaning that theoretical predictions are made with large computer simulations.
@@ -253,6 +290,9 @@ Since the money involved is astronomical, there is no simple fix for this unless
 If that is what's required to avoid the bias, then we should just analyze everything with simulations in the first place, and never use the emulators at any stage.
 
 \section{When is machine learning good for natural science?}\label{sec:good}
+HOGG: BE SURE to say what is in common across all of these examples. They are joined by a thread!
+
+\paragraph{Execution and operations:}
 
 \paragraph{Foreground, background, and confounder models:}
 
@@ -260,23 +300,50 @@ If that is what's required to avoid the bias, then we should just analyze everyt
 
 \section{Discussion}\label{sec:discussion}
 
-Hello World!
+We hope we have clearly answered the question in the title with the response ``Both!''
+Machine learning (ML) is a reality for the natural sciences:
+We need it for speed and scale in many contexts in many contemporary scientific projects, where instrument bandwidths, data volumes, assay parallelization, experimental automation, and scientific ambitions are all growing.
+It is also the case that PhD students and practitioners in the natural sciences want to---or even need to---learn ML practices to have useful and transferable skills.
+ML is here, and it is here to stay.
 
-HOGG: DROP THIS? All differences aside, there is an argument to make that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
+That said, there is a certain amount of hype in this area, and we are seeing scientists ``move fast and break things'' \cite{zuck} all over the place.
+If anything, this \documentname{} represents a call to slow down and think more.
+ML tools are incredibly powerful, if we put them to use in the right places in the natural sciences.
+
+There is a famous ancient quotation about ``the unreasonable effectiveness of mathematics in physics'' \cite{weiner_maybe}.
+Mathematics has been pursued (in many cases) for abstract reasons of beauty and technical challenge, but it has ended up creating a language for many of the natural sciences.
+Similarly, we could coin a phrase about \emph{the unreasonable effectiveness of machine learning in the natural sciences}.
+It's unreasonable because ML methods were designed---and, importantly, developed, engineered, and optimized---to solve problems for commerce.
+The most remarkable ML systems have been driven by critical industrial questions such as: Which advertisement should I display on this web search result? What direction should I steer this automobile? How could I make a chair that looks like an avocado? And which online videos contain kittens?
+In some sense it is remarkable that there is \emph{any} overlap between these technologies and the things we need in scientific domains.
+
+But that said, the industrial successes of ML can also be misleading.
+The fact that big ML models can solve countless problems in business does not mean that all areas of the natural sciences will be helped by the introduction of ML.
+You do not have to \emph{understand} your customers (nor their videos) in order to make plenty of revenue off of them; in the natural sciences, it is understanding, not revenue, that we seek.
+
+Finally, we make a philosophical comment:
+In physics---and in most of the natural sciences we believe---the same phenomena can be explained with many qualitatively different theories \cite{philosphy_of_physics}; mathematical theories are not usually unique.
+In the same way (as we noted above), ML models contain massive degeneracies, and even different architectures can lead to near-identical predictions after training on the same training data.
+Does this lead to a philosophical connection between ML and the natural sciences?
+We have argued elsewhere \cite{hogg} that the degeneracies in the natural sciences undermine \emph{realism} or the belief in the literal truth of the latent theories or objects of physics.
+There is an argument to be made that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
 In the long run, the data are more stable than the fundamental theories of physics:
 Newtonian gravity was replaced with general relativity, and we expect general relativity to be replaced by some kind of quantum gravitational theory.
 At each change, the ontology changes, while the data are stable.
-We are not recommending this, but noting that a robust philosophy of science might be more positively oriented towards the data than standard practice.
+We are not recommending anything (yet), we are merely noting that a robust philosophy of natural science might be more positively oriented towards the data than current standard practice.
 
 \paragraph{Acknowledgements:}
 It is a pleasure to thank
   Gaby Contardo (SISSA),
   Jennifer Hill (NYU),
   Adrian Price-Whelan (Flatiron),
+  Hans-Walter Rix (MPIA),
   Sam Roweis (deceased),
   Bernhard Sch\"olkopf (MPI-IS), and
   Soledad Villar (JHU)
-for conversations over the years related to these arguments.
+for conversations over the years related to these arguments, and
+  Vedant Chandra (Harvard)
+for discussions of the bias in regression outputs.
 
 {\raggedright
 \bibliography{ml_in_astro}
@@ -285,9 +352,10 @@ for conversations over the years related to these arguments.
 
 \clearpage\appendix
 \section{Population-level biases in regression outputs}\label{app:toy}
-A machine-learning (ML) regression learns the best set of parameters (weights and thresholds, for example) $\hat{\theta}$ of a flexible function $f(x;\theta)$ from a training set of labeled data.
+A machine-learning (ML) regression learns the best (that it can find) value of a list or vector $\hat{\theta}$ of parameters (weights and thresholds, for example) of an expressive function $f(x;\theta)$ that takes as input a feature list or vector $x$ and outputs a label estimate $y$.
+The parameters $\hat{\theta}$ are learned from a training set of labeled data, which is a set of $(x, y)$ pairs.
 The learned function $f(x;\hat{\theta})$ delivers a predicted or estimated label $\hat{y}$ for any data point with a complete set of features $x$.
-Thus an estimated label $\hat{y}_\ast$ for a data point with features $x_\ast$ has taken information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the parameters $\hat{\theta}$.
+Thus a particular estimated label $\hat{y}_\ast$ for a particular data point with features $x_\ast$ obtains information \emph{both} from the features $x_\ast$ and \emph{also} from the features and labels of all the data points in the training set used to set the parameters $\hat{\theta}$.
 In applications in which regression-estimated labels are used, it matters \emph{how much information} is coming from the individual data-point's features and how much from the original training set.
 
 To illustrate these ideas, we construct a toy data analysis.
@@ -297,7 +365,7 @@ This algorithm makes references to objects $\xi_\eta$ and $\xi_\zeta$ which are 
 \begin{hoggnumerate}
     \item A floating-point value of a known parameter called ``guiding radius'' $r$ is generated in the range $0<r<14$.
     \item A floating-point value of a latent parameter called ``age'' $\eta$ is generated from a Gaussian with mean $14 - r$ and variance 4.
-    \item The point is discarded if the age is outside the range $0<\eta<13$. If the point is not discarded:
+    \item The point is discarded if the age is outside the range $0<\eta<14$. If the point is not discarded:
     \item A $K$-dimensional latent vector $\zeta$ with $K=14$ is generated from a Gaussian with zero mean and variance 1.
     \item A $M$-dimensional latent vector $\xi$ with $M=110$ is created by $\xi = \xi_\eta\,\eta + \xi_\zeta\cdot\zeta$, where $\xi_\eta$ is a $M$-vector and $\xi_\zeta$ is a $M\times K$ matrix.
     The elements of $\xi_\eta$ and $\xi_\zeta$ were drawn (before the start) from Gaussians with zero mean and variances $0.01/K$ and $1/K$ respectively.
@@ -308,13 +376,13 @@ This algorithm makes references to objects $\xi_\eta$ and $\xi_\zeta$ which are 
 The data generated this way are shown in the top panels of \figurename~\ref{fig:regression}.
 The data contain a non-trivial relationship between label $y$ (measured age) $y$ and known parameter $r$ (guiding radius).
 This relationship is shown in \figurename~\ref{fig:regression}.
-It isn't precisely linear because of the censoring of data points with latent ages outside the range $0<\eta<13$.
+It isn't precisely linear because of the removal of data points with latent ages $\eta$ outside the range $0<\eta<14$.
 
 We construct a three-layer multilayer perceptron (MLP) (using the scikit-learn implementation) with layer sizes of 64, 32, and 16 neurons.
 The model is trained on a training set of 4096 data points with features $x$ and labels $y$.
 The trained model takes as input features $x$ and outputs estimated labels $\hat{y}$.
 The model is validated on a validation set of 2048 data points with features $x$ and labels $y$.
-The test set is a much larger set of 105,864 data points with features $x$ and no labels.
+The test set is a much larger set of $10^5$ data points with features $x$ and no labels.
 The model is used to make estimated labels $\hat{y}$ in the full test set.
 The validation and test labels are shown in the bottom panels of \figurename~\ref{fig:regression}.
 Importantly, \emph{the training, validation, and test samples are drawn from exactly the same process}, with the same distribution in all properties.
@@ -328,15 +396,18 @@ Visualization of the toy regression. \textsl{Top-left:} Random examples of the d
 \end{figure}
 
 The regression-estimated labels $\hat{y}$ are related to the measured labels $y$ in the held-out validation set with a linear relationship with unit slope and zero intercept.
-They are not precisely estimated to be sure, but there is no evidence for strong bias at the individual-object level.
+The comparison to the validation data (bottom-left panel of \figurename~\ref{fig:regression}) shows that they are not precisely estimated, but there is no evidence for strong bias at the individual-object level.
 
 The true relationship between label $y$ (measured age) and known parameter $r$ (guiding radius) is estimated in a large generated data set by taking means of $y$ in bins of $r$.
 This relationship is shown in \figurename~\ref{fig:regression} with solid red circles.
 The empirical relationship between label $y$ and known parameter $r$ in the training-set data is shown in \figurename~\ref{fig:regression} with open black squares.
-These two relationships are statistically consistent.
+These two relationships are statistically consistent, as expected.
 The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figurename~\ref{fig:regression} with black X-shaped symbols.
 The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
-Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
+
+HOGG: TAKE A PARAGRAPH TO EXPLAIN THIS CLAIM: Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
+
+HOGG: COMMENT OR SHOW that the bias goes down as the information in the features goes up (relative to the information in the training-set distribution (the prior)).
 
 In this case, what should the investigator do---the investigator who wants to know the relationship between $y$ (age) and $r$ (guiding radius)?
 The investigator should \emph{just use the training set}.
