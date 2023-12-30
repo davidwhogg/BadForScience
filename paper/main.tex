@@ -1,7 +1,9 @@
 % To do:
 % ------
 % - Change it to be about PHYSICS rather than natural science?
-% - Fill in the outline.
+% - Get feedback from Yann, BS, MSV, JH, others
+% - put in all references
+% - audit bibliography; make sure arXiv references in the reference list are consistent?
 % - Publish on the arXiv.
 % - set formatting and anonymization switches to go between arXiv and ICML Position Paper
 % - submit to ICML.
@@ -186,7 +188,7 @@ A trained ML model is deemed successful or correct if \emph{it performs well on 
 This epistemological position is related strongly to the ontological position:
 If only the data exist, then the success of a model is judged only in terms of the data it describes.
 
-In support of this position we could point to the literature on adversarial attacks \cite{adversarial1, adversarial2}.
+In support of this position we could point to the literature on adversarial attacks (eg, \cite{adversarial1}).
 This literature shows us, in dramatic ways, that ML methods are not doing what we (na\"ively) believe that humans or scientists or scientific theories do in comparable circumstances.
 And yet, these attacks do not suggest (to most practitioners of ML) that the methods are wrong or require revision.
 Even the responses to attacks have responded in ways that involve augmentation of data \cite{adversarial_training}, such that the vulnerability to attack is lessened without compromising the fundamental epistemological point that performance on data is the primary standard of truth.
@@ -217,7 +219,7 @@ In most cases, the ML is required on the engineering or execution side of projec
   Below (\sectionname~\ref{sec:bad}) we argue that this is not an advisable use of ML in the natural sciences if the expectation is that the regression-generated labels are going to be used in downstream scientific projects.
   \item[Classification:] This is the same use case as label transfer, but in the specific case in which the labels are drawn from a finite (small, actually) set of discrete values.
   \item[Speeding up decisions:] Many scientific projects must make decisions very fast in real time.
-  The most extreme examples of this are in particle physics, where detectors (such as the \textsl{Atlas} Experiment \cite{atlas} at the \textsl{Large Hadron Collider} \cite{lhc}) must decide whether to trigger a data-saving event in a tiny fraction of second.
+  The most extreme examples of this are in particle physics, where detectors (such as the \textsl{Atlas} Experiment \cite{atlas} at the \textsl{Large Hadron Collider}) must decide whether to trigger a data-saving event in a tiny fraction of second.
   It is often the case that trained ML classifiers can reproduce the selection boundaries as well---or nearly as well---as first-principles models, but with far less computation.
   \item[Speeding up simulations:] In much of the natural sciences, the theory in play is a computation or simulation or digital twin.
   These simulations tend to be very computationally expensive, since they often span large ranges of spatial or time scales.
@@ -325,7 +327,7 @@ As mentioned in \sectionname~\ref{sec:why}, ML is well suited to outlier detecti
 Since ML methods are expressive, and trained to fit the data, new data that \emph{aren't} well described by a trained ML model are possibly interesting.
 Outlier-detection systems can be used to identify time intervals in which the equipment is malfunctioning.
 They can also be used to identify objects that are rare or unusual.
-Many discoveries in astrophysics are discoveries of new kinds of objects, originally found as data outliers \cite{quasars, vorweerp}.
+Many discoveries in astrophysics are discoveries of new kinds of objects, originally found as data outliers \cite{quasars, voorwerp}.
 So far, ML has not been involved in any big discoveries in astronomy, but we expect this to be a productive avenue for ML in the natural sciences and astronomy in particular.
 
 \paragraph{Foreground, background, and confounder models:}
@@ -401,7 +403,7 @@ for conversations over the years related to these arguments, and
   Vedant Chandra (Harvard)
 for discussions of the bias in regression outputs.
 
-{\raggedright
+{\raggedright\footnotesize
 \bibliography{ml_in_astro}
 \bibliographystyle{plain}
 }
