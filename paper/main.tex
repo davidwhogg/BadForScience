@@ -3,7 +3,8 @@
 % - Change it to be about PHYSICS rather than natural science?
 % - Fill in the outline.
 % - Publish on the arXiv.
-% - format for ICML Position Paper and submit.
+% - set formatting and anonymization switches to go between arXiv and ICML Position Paper
+% - submit to ICML.
 % - Wait for the call from Stockholm.
 
 % Style notes:
@@ -11,9 +12,10 @@
 % - Be very careful about the SUBJECT of sentences. Is it ML that is bad? Is it the practice that is bad? Is it the practitioner that is bad?
 % - Should we use NS for natural science?
 % - How many authors are there? Should we switch to first-person singular?
+% - Audit for flexible, expressive, high in capacity, and so on.
 % - [more here]
 
-\documentclass[11pt]{article}
+\documentclass[10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
 \usepackage[letterpaper]{geometry}
@@ -22,8 +24,8 @@
 \usepackage{url}
 
 % Hogg typesetting issues
-\setlength{\textwidth}{6.00in}
-\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{5.50in}
+\setlength{\oddsidemargin}{0.00in}
 \setlength{\oddsidemargin}{0.00in}
 \setlength{\textheight}{9.25in}
 \setlength{\topmargin}{-0.50in}
@@ -33,6 +35,7 @@
 \newcommand{\affil}[1]{{\footnotesize\par\noindent #1 \par}}
 \renewenvironment{abstract}{\paragraph{Abstract:}}{}
 \newcommand{\documentname}{\textsl{Position Paper}}
+\newcommand{\draftstatus}{\textcolor{red}{Draft version 2023-12-30}}
 \newcommand{\sectionname}{Section}
 \newenvironment{hoggnumerate}
   {\begin{list}
@@ -51,7 +54,7 @@
   }
 {\end{list}}
 \pagestyle{myheadings}
-\markboth{foo}{\textcolor{gray}{\textsf{Hogg / Is machine learning good or bad for the natural sciences?}}}
+\markboth{foo}{\textcolor{gray}{\textsf{Hogg / Is machine learning good or bad for the natural sciences? \draftstatus}}}
 \linespread{1.08}
 \frenchspacing\raggedbottom\sloppy\sloppypar
 
@@ -66,7 +69,9 @@
 
 \begin{document}\thispagestyle{empty}
 
-\title{\documentname: Is machine learning good or bad for the natural sciences?}
+\title{Is machine learning good or bad for the natural sciences?}
+\noindent
+\draftstatus
 
 \author{David W. Hogg}
 \affil{Center for Cosmology and Particle Physics, Department of Physics, New York University, 726~Broadway, New~York,~NY 10003, USA}
@@ -124,7 +129,7 @@ The answer to the question in the title is ``Both.''
   \item We deliver a description of the fundamental \emph{ontology} and \emph{epistemology} of machine learning, and contrast these with the ontologies and epistemologies of the natural sciences.
   \item We elucidate two important and strong statistical biases that are being introduced to the natural sciences by some of the uses of ML in those disciplines. One is a confirmation bias that arises when simulations are replaced or augmented by emulators. Another is a more standard estimator bias that is (possibly enormously) amplified when elements of datasets produced by ML regressions are used in combination or joint analyses.
   \item We show that there are many safe places for the use of ML methods in current natural-science practices, and places where (in the contemporary context) the use of ML methods is effectively \emph{required}. Many of these places are in the operational parts of scientific projects.
-  \item Further, we demonstrate that there are contexts inside a natural-scientific analysis in which using the most expressive ML method delivers \emph{the most conservative approach} to the scientific problem. An example is in causal contexts, where providing immense flexibility to (say) a confounder model can strengthen conclusions about the causal channels of interest.
+  \item Further, we argue that there are contexts inside a natural-scientific analysis in which using the most expressive ML method delivers \emph{the most conservative approach} to the scientific problem. An example is in causal contexts, where making a confounder model more expressive can strengthen conclusions about the causal channels of interest.
 \end{itemize}
 
 \section{The ontology and epistemology of machine learning}\label{sec:philosophy}
@@ -203,7 +208,7 @@ It must explain data in multiple domains, and it must also connect in natural wa
 (It is worthy of note here that a successful theory in the natural sciences is usually a combination of a more fundamental theory of the latents, and a less fundamental or auxiliary observation model, which explains how the latents appear in or affect the observable data \cite{auxiliary}.)
 General relativity \cite{gr} was adopted not primarily because it explained anomalous data (although it did explain some); it was adopted because it had a beautiful structure, it resolved conceptual paradoxes in the pre-existing theory of gravity, and it was consistent with emerging ideas of field theory and geometry.
 
-\section{Why do we need machine learning in the natural sciences?}
+\section{Why do we need machine learning in the natural sciences?}\label{sec:why}
 In this \sectionname{} we give some idea of how and why ML has had such a big impact in the natural sciences, and how and why many scientific projects require ML technologies.
 In most cases, the ML is required on the engineering or execution side of projects that are large-scale in some sense.
 \begin{description}
@@ -227,7 +232,12 @@ In most cases, the ML is required on the engineering or execution side of projec
   \item[Making discoveries?] There is a new hope in the sciences that sufficiently trained or constrained models might lead to new insights about scientific theories or might effectively make fundamental discoveries.
   There are approaches along the direction of symbolic regression \cite{symbolic1, symbolic2}, and there are approaches along the lines of foundation models \cite{foundation1, foundation2}.
 \end{description}
-The short summary is that we need ML in the natural sciences; we can't live without it.
+This list isn't exhaustive!
+For example, it doesn't mention the use of ML to find summary statistics for the comparison of simulations and data in (say) simulation-based inferences \cite{sbi}.
+It doesn't mention using ML to emulate likelihoods or likelihood ratios \cite{biwei, kyle}.
+The uses of ML in the natural sciences is legion.
+
+The short summary of all this is that we need ML in the natural sciences; we can't live without it.
 The question here is---given the restrictive ontology and loose epistemology---how we will use it safely?
 
 \section{When is machine learning bad for natural science?}\label{sec:bad}
@@ -261,8 +271,6 @@ There are interesting approaches in development to replace regressions with gene
 Finally we note---and demonstrate in \appendixname~\ref{app:toy}---that none of these problems arise from out-of-sample generalization or distribution-shift problems.
 Distribution shifts just tend to make these kinds of problems worse.
 
-HOGG: DO WE CLEARLY SAY: ML estimates are always biased, maximum-likelihood estimates sometimes aren't. That's important if you are releasing data for downstream re-use.
-
 \paragraph{Emulator-induced confirmation bias:}
 In many fields in the natural sciences, the fundamental theoretical model is \emph{computational}, meaning that theoretical predictions are made with large computer simulations.
 These simulations are usually limited in the range of length scales and time scales which they can simultaneously compute.
@@ -290,13 +298,57 @@ Since the money involved is astronomical, there is no simple fix for this unless
 If that is what's required to avoid the bias, then we should just analyze everything with simulations in the first place, and never use the emulators at any stage.
 
 \section{When is machine learning good for natural science?}\label{sec:good}
-HOGG: BE SURE to say what is in common across all of these examples. They are joined by a thread!
+In \sectionname~\ref{sec:intro} we re-phrased the question in the title as
+``Where, in the natural sciences, can you use a model you don't understand?''
+The answer is: You can use it for the parts of your scientific project or experiment or analysis that \emph{you don't need to understand}.
+We have colleagues who believe that there is no such part.
+We disagree: For example in astronomy, we use charge-coupled devices to make extremely precise measurements of stars, without knowing in detail the solid-state physics that makes them efficient, linear detectors of photons.
+There are many parts of a scientific project that must work well, but which do not need to be carefully controlled or understood (in advance, anyway).
 
-\paragraph{Execution and operations:}
+Here we give a few examples.
+These are not intended to be exhaustive; they are just examples of places within a scientific project ML can be used to the benefit---and not detriment---of the natural-science goals.
+
+\paragraph{Real-time execution and operations:}
+In many scientific projects, experiments are adaptive to real-time outcomes, or data are taken selectively, or limited resources are assigned to particular targets.
+When bandwidths are high, or experimental timescales are short, sometimes the decisions that need to be made in real time cannot be made with the first-principles decision-making that the investigator would like.
+An example mentioned above is the selection of events for storage at the \textsl{LHC Atlas} Experiment \cite{atlas}.
+An example from astronomy is the upcoming \textsl{Rubin Observatory LSST} project \cite{rubin}, which will generate some $10^5$ events of possible interest for follow-up observing every night \cite{lsst_events}.
+These decisions can be made with very fast classifiers, trained on well-studied training data or simulations \cite{lsst_broker, atlas_trigger}.
+
+Is it unsafe to operate a project using ML decision-making systems?
+Even if these systems do not have to be extremely well understood in real time, but they do need to be \emph{versioned} and preserved for study later.
+Statistical projects making use of the data from systems like this will need to understand the statistical biases created by the ML selection procedures.
+This can be done after the fact, provided that the decision-making system is preserved in a precisely reproducible state, such that it can be run offline on counterfactual, simulated, and subsequent data.
+
+\paragraph{Discoveries of outliers and rare objects:}
+As mentioned in \sectionname~\ref{sec:why}, ML is well suited to outlier detection.
+Since ML methods are expressive, and trained to fit the data, new data that \emph{aren't} well described by a trained ML model are possibly interesting.
+Outlier-detection systems can be used to identify time intervals in which the equipment is malfunctioning.
+They can also be used to identify objects that are rare or unusual.
+Many discoveries in astrophysics are discoveries of new kinds of objects, originally found as data outliers \cite{quasars, vorweerp}.
+So far, ML has not been involved in any big discoveries in astronomy, but we expect this to be a productive avenue for ML in the natural sciences and astronomy in particular.
 
 \paragraph{Foreground, background, and confounder models:}
+We mentioned in \sectionname~\ref{sec:philosophy} that a natural-science theory is a combination of a fundamental, latent theory with a (usually complicated) auxiliary observation model that explains the details of the observations.
+The simplest part of this observation model is the model of the backgrounds, foregrounds, and confounders.
+For example, any maps of the cosmic microwave background (by the ESA \textsl{Planck} spacecraft \cite{planck_maps}, for example) will have emission from the intervening Milky Way and from radio galaxies, adding to, and distorting the maps.
+When the goal is to understand the cosmic microwave background, the investigator often doesn't need to understand these foregrounds \emph{physically}; an \emph{effective model} is sufficient.
+And indeed, all the bleeding-edge methods for this problem currently are ML methods \cite{cmb_foregrounds}.
+It doesn't matter to the questions of physical cosmology what those foregrounds \emph{mean}; and indeed with ML-based foreground removal, cosmic microwave background experiments have delivered the most precise measurements of the parameters of the cosmological model with sub-percent accuracy \cite{planck_parameters}.
 
-\paragraph{Outlier detection:}
+This is all true: For foregrounds and backgrounds, understanding is not always necessary.
+An even stronger statement can be made here, however, in the realm of causal inference:
+Sometimes the goal is to argue that an effect is being caused by some particular cause, and there are confounding causal inputs that might be distorting or influencing the data.
+The more expressive the model used to model the confounders, the stronger the conclusions that can be made about the causation \cite{causal_inference}.
+That is, the huge capacity of ML methods can made a causal claim \emph{very conservative}, and hence very robust.
+One way to see this is that if the confounder model has been given every chance it possibly can have to model the effect of interest, and it cannot, then it is a stronger conclusion that the effect is caused by the cause of interest.
+This is the strategy in contemporary causal-inference projects, which make use of ML methods for these reasons \cite{bart}.
+
+A key place for this kind of causal inference has been in instrument calibration.
+Data taken by an instrument have signals imprinted from the physical (or biological or chemical) processes of interest, and also from the details of the measurement hardware, such as sensitivity and bias variations, and time-dependent distortions of internal mappings.
+In the end, if the results of the investigation are to have the instrument calibrated out, it makes sense to give the instrument model a lot of expressive power, and judge that model in terms of its ability to explain the data.
+Hence, instrument models and calibration are important places for ML methods, and places where the introduction of ML methods can made scientific projects more conservative and more accurate.
+One very early example of this in astronomy was the calibration of the \textsl{Sloan Digital Sky Survey} imaging data \cite{ubercalibration}.
 
 \section{Discussion}\label{sec:discussion}
 
@@ -313,8 +365,12 @@ ML tools are incredibly powerful, if we put them to use in the right places in t
 There is a famous ancient quotation about ``the unreasonable effectiveness of mathematics in physics'' \cite{weiner_maybe}.
 Mathematics has been pursued (in many cases) for abstract reasons of beauty and technical challenge, but it has ended up creating a language for many of the natural sciences.
 Similarly, we could coin a phrase about \emph{the unreasonable effectiveness of machine learning in the natural sciences}.
-It's unreasonable because ML methods were designed---and, importantly, developed, engineered, and optimized---to solve problems for commerce.
-The most remarkable ML systems have been driven by critical industrial questions such as: Which advertisement should I display on this web search result? What direction should I steer this automobile? How could I make a chair that looks like an avocado? And which online videos contain kittens?
+It's unreasonable because ML methods were developed, engineered, and optimized to solve problems for commerce.
+The most remarkable ML systems have been driven by critical industrial questions such as:
+Which advertisement should I display on this web search result?
+What direction should I steer this automobile?
+How could I make a chair that looks like an avocado?
+And which online videos contain kittens?
 In some sense it is remarkable that there is \emph{any} overlap between these technologies and the things we need in scientific domains.
 
 But that said, the industrial successes of ML can also be misleading.
