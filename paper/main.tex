@@ -1,9 +1,10 @@
 % To do:
 % ------
 % - Change it to be about PHYSICS rather than natural science?
-% - Get feedback from Yann, BS, MSV, JH, others
+% - Get feedback from BS, MSV, JH, others
+% - Update appendix with feedback from Vedant Chandra (email).
 % - put in all references
-% - audit bibliography; make sure arXiv references in the reference list are consistent?
+% - audit bibliography; make sure arXiv references in the reference list are consistent? Also capitalization!
 % - Publish on the arXiv.
 % - set formatting and anonymization switches to go between arXiv and ICML Position Paper
 % - submit to ICML.
@@ -25,20 +26,13 @@
 \usepackage{graphicx}
 \usepackage{url}
 
-% Hogg typesetting issues
-\setlength{\textwidth}{5.50in}
-\setlength{\oddsidemargin}{0.00in}
-\setlength{\oddsidemargin}{0.00in}
-\setlength{\textheight}{9.25in}
-\setlength{\topmargin}{-0.50in}
-\setlength{\parindent}{1.2\baselineskip} % seriously
-\renewcommand{\title}[1]{\section*{\raggedright #1}}
-\renewcommand{\author}[1]{\medskip\par\noindent\textbf{#1}}
-\newcommand{\affil}[1]{{\footnotesize\par\noindent #1 \par}}
-\renewenvironment{abstract}{\paragraph{Abstract:}}{}
+% Hogg typesetting issues that won't conflict with ICML
+\frenchspacing
 \newcommand{\documentname}{\textsl{Position Paper}}
-\newcommand{\draftstatus}{\textcolor{red}{Draft version 2023-12-30}}
+\newcommand{\draftstatus}{\textcolor{red}{Draft version 2023-12-31}}
 \newcommand{\sectionname}{Section}
+\newcommand{\secref}[1]{\sectionname~\ref{#1}}
+\newcommand{\figref}[1]{\figurename~\ref{#1}}
 \newenvironment{hoggnumerate}
   {\begin{list}
     {\arabic{enumii}.}
@@ -55,10 +49,21 @@
     }
   }
 {\end{list}}
+
+% Hogg typesetting issues that will conflict with ICML
+\setlength{\textwidth}{5.50in}
+\setlength{\oddsidemargin}{-0.25in}
+\setlength{\textheight}{9.25in}
+\setlength{\topmargin}{-0.50in}
+\setlength{\parindent}{1.2\baselineskip} % seriously
+\renewcommand{\title}[1]{\section*{\raggedright #1}}
+\renewcommand{\author}[1]{\medskip\par\noindent\textbf{#1}}
+\newcommand{\affil}[1]{{\footnotesize\par\noindent #1 \par}}
+\renewenvironment{abstract}{\paragraph{Abstract:}}{}
 \pagestyle{myheadings}
 \markboth{foo}{\textcolor{gray}{\textsf{Hogg / Is machine learning good or bad for the natural sciences? \draftstatus}}}
 \linespread{1.08}
-\frenchspacing\raggedbottom\sloppy\sloppypar
+\raggedbottom\sloppy\sloppypar
 
 % Gross
 \newcommand{\apj}{The Astrophysical Journal}
@@ -129,9 +134,9 @@ The answer to the question in the title is ``Both.''
 \paragraph{Our contributions:}
 \begin{itemize}
   \item We deliver a description of the fundamental \emph{ontology} and \emph{epistemology} of machine learning, and contrast these with the ontologies and epistemologies of the natural sciences.
-  \item We elucidate two important and strong statistical biases that are being introduced to the natural sciences by some of the uses of ML in those disciplines. One is a confirmation bias that arises when simulations are replaced or augmented by emulators. Another is a more standard estimator bias that is (possibly enormously) amplified when elements of datasets produced by ML regressions are used in combination or joint analyses.
+  \item We elucidate two important and strong statistical biases that are being introduced to the natural sciences by some of the uses of ML in those disciplines. One is a confirmation bias that arises when simulations are replaced or augmented by emulators. Another is a more standard estimator bias that is (possibly enormously) amplified when elements of datasets produced by ML regressions are used in combination or joint analyses. These biases can't be easily corrected.
   \item We show that there are many safe places for the use of ML methods in current natural-science practices, and places where (in the contemporary context) the use of ML methods is effectively \emph{required}. Many of these places are in the operational parts of scientific projects.
-  \item Further, we argue that there are contexts inside a natural-scientific analysis in which using the most expressive ML method delivers \emph{the most conservative approach} to the scientific problem. An example is in causal contexts, where making a confounder model more expressive can strengthen conclusions about the causal channels of interest.
+  \item We argue that in causal contexts, in which the ML method is used to model foregrounds, backgrounds, calibration parameters, or other confounders, using the most expressive ML method can deliver \emph{the most conservative approach} to the scientific problem.
 \end{itemize}
 
 \section{The ontology and epistemology of machine learning}\label{sec:philosophy}
@@ -216,27 +221,29 @@ In most cases, the ML is required on the engineering or execution side of projec
 \begin{description}
   \item[Label transfer:] Sometimes a project has informative data on a very large number of objects, but precise labels for only a few, maybe obtained through very careful analysis or external data.
   In this case, if it is extremely expensive to label more objects, a regression can be trained on the few labeled data points and then the trained regression used to label all the rest.
-  Below (\sectionname~\ref{sec:bad}) we argue that this is not an advisable use of ML in the natural sciences if the expectation is that the regression-generated labels are going to be used in downstream scientific projects.
+  Below (\secref{sec:bad}) we argue that this is not an advisable use of ML in the natural sciences if the expectation is that the regression-generated labels are going to be used in downstream scientific projects.
   \item[Classification:] This is the same use case as label transfer, but in the specific case in which the labels are drawn from a finite (small, actually) set of discrete values.
+  It is subject to the same kinds of biases described below (\secref{sec:bad}).
   \item[Speeding up decisions:] Many scientific projects must make decisions very fast in real time.
   The most extreme examples of this are in particle physics, where detectors (such as the \textsl{Atlas} Experiment \cite{atlas} at the \textsl{Large Hadron Collider}) must decide whether to trigger a data-saving event in a tiny fraction of second.
   It is often the case that trained ML classifiers can reproduce the selection boundaries as well---or nearly as well---as first-principles models, but with far less computation.
+  It is critical, if ML methods are used for real-time operations, that the methods and all their latent parameters (weights) be preserved for analysis, operations simulations, and conterfactual exercises, often performed long after the data are taken.
   \item[Speeding up simulations:] In much of the natural sciences, the theory in play is a computation or simulation or digital twin.
   These simulations tend to be very computationally expensive, since they often span large ranges of spatial or time scales.
   ML regressions can be trained to emulate the simulations, or patch up low-resolution simulations to higher resolutions.
-  HOGG: THERE ARE MANY different approaches to emulation; summarize here?
-  Below (\sectionname~\ref{sec:bad}) we argue that the introduction of ML-based emulators can introduce unwanted confirmation bias.
+  Below (\secref{sec:bad}) we argue that the introduction of ML emulators can introduce an unwanted, strong confirmation bias.
   \item[Modeling nuisances:] In most natural-science domains, the quantities of interest are not directly observable, but rather the model or prediction for the data is a combination of the theory of relevance plus auxilliary theories of foregrounds, backgrounds, instrumentation, and noise sources.
-  When the goal is for these nuisances to be effectively modeled but not necessarily understood in detail, ML approaches can be effective and (as we argue in \sectionname~\ref{sec:good}) even conservative.
+  When the goal is for these nuisances to be effectively modeled but not necessarily understood in detail, ML approaches can be effective and (as we argue in \secref{sec:good}) even conservative.
   \item[Outlier detection:] In many of the sciences, discovery of new or previously unknown phenomena or objects can be of great importance.
   A recent example in astronomy is the discovery of fast radio bursts \cite{grbs}, which started as nuisances in imaging projects and have turned out to be interesting astrophysical objects.
   Since expressive unsupervised ML methods can describe accurately a complex distribution of data, they can also be used to find rare data points that are unlike any elements of the training data.
   \item[Making discoveries?] There is a new hope in the sciences that sufficiently trained or constrained models might lead to new insights about scientific theories or might effectively make fundamental discoveries.
   There are approaches along the direction of symbolic regression \cite{symbolic1, symbolic2}, and there are approaches along the lines of foundation models \cite{foundation1, foundation2}.
+  So far this hope has borne no important new discoveries, but discoveries are not inconceivable.
 \end{description}
 This list isn't exhaustive!
 For example, it doesn't mention the use of ML to find summary statistics for the comparison of simulations and data in (say) simulation-based inferences \cite{sbi}.
-It doesn't mention using ML to emulate likelihoods or likelihood ratios \cite{biwei, kyle}.
+It doesn't mention using ML to emulate likelihoods or likelihood ratios \cite{biwei, likelihood_ratio}.
 The uses of ML in the natural sciences is legion.
 
 The short summary of all this is that we need ML in the natural sciences; we can't live without it.
@@ -268,28 +275,28 @@ Likelihood-based estimators are not usually the lowest-risk estimators, but they
 The outputs of regressions are more like posterior-based estimators, affected by the implicit prior set by the training set.
 When they are combined, the implicit prior gets amplified.
 Most ML regressions are not capable of generating or emulating likelihoods.
-There are interesting approaches in development to replace regressions with generative models that can produce likelihoods HOGG CITE THINGS.
+There are interesting approaches in development to replace standard regressions with generative models that can produce likelihoods \cite{cannon, biwei, likelihood_ratio}.
 
 Finally we note---and demonstrate in \appendixname~\ref{app:toy}---that none of these problems arise from out-of-sample generalization or distribution-shift problems.
 Distribution shifts just tend to make these kinds of problems worse.
 
 \paragraph{Emulator-induced confirmation bias:}
 In many fields in the natural sciences, the fundamental theoretical model is \emph{computational}, meaning that theoretical predictions are made with large computer simulations.
-These simulations are usually limited in the range of length scales and time scales which they can simultaneously compute.
-Comparison of data with simulations usually involves running enormous numbers of simulations \cite{sbi}, because simulations have to span ranges of fundamental parameters and initial conditions and so on.
+These simulations are usually being asked to handle large ranges of length scales and time scales, so they are generally getting larger and more computationally demanding each year.
+Quantitative comparison of data with simulations usually involves running enormous numbers of simulations \cite{abc}, because simulations have to span ranges of fundamental parameters and initial conditions and so on.
 Thus these simulation requirements are getting very large for contemporary research projects.
-For example, in cosmology contemporary experiments could easily consume the total computing capacity of the United States.
+For example, in cosmology, contemporary experiments could easily consume the total computing capacity of the United States.
 Hence we turn to emulators---trained ML regressions that have learned the input-output relationship of a simulation, or the relationship between an inexpensive low-resolution simulation and an expensive high-resolution experiment.
 Emulators can make computationally impossible projects possible.
 
 Recall that because these emulators are ML methods, they generally have uninterpretable internal parameters and weights, and they generally have been validated by comparison with held-out training data.
-Like all high-capacity ML methods, they generally are vulnerable to adversarial attacks.
+Like all high-capacity ML methods, they generally are vulnerable to adversarial attacks \cite{adversarial1}.
 
 Now imagine that two cosmology experiments proceed to do enormous emulator-based inferences on large data sets.
 Imagine that these inferences are so large that it would have been exceedingly expensive to have done them with the original first-principles simulations instead of the emulators.
 Experiment A finds cosmological parameters very much in line with our expectations going in.
 Experiment B finds something extremely surprising about the mass matrix for the neutrinos, in conflict with other measurements and our expectations.
-The comment is made, when the results of Experiment B come out, that perhaps the anomaly comes from something very slightly wrong or off in the trained ML emulator.
+Is it possible that the anomaly discovered by Experiment B isn't real; it just comes from something very slightly wrong or off in the trained ML emulator?
 
 By construction, both experiments are extremely expensive to re-analyze with first-principles simulations.
 Which one would we fund for reproduction?
@@ -300,7 +307,7 @@ Since the money involved is astronomical, there is no simple fix for this unless
 If that is what's required to avoid the bias, then we should just analyze everything with simulations in the first place, and never use the emulators at any stage.
 
 \section{When is machine learning good for natural science?}\label{sec:good}
-In \sectionname~\ref{sec:intro} we re-phrased the question in the title as
+In \secref{sec:intro} we re-phrased the question in the title as
 ``Where, in the natural sciences, can you use a model you don't understand?''
 The answer is: You can use it for the parts of your scientific project or experiment or analysis that \emph{you don't need to understand}.
 We have colleagues who believe that there is no such part.
@@ -323,7 +330,7 @@ Statistical projects making use of the data from systems like this will need to 
 This can be done after the fact, provided that the decision-making system is preserved in a precisely reproducible state, such that it can be run offline on counterfactual, simulated, and subsequent data.
 
 \paragraph{Discoveries of outliers and rare objects:}
-As mentioned in \sectionname~\ref{sec:why}, ML is well suited to outlier detection.
+As mentioned in \secref{sec:why}, ML is well suited to outlier detection.
 Since ML methods are expressive, and trained to fit the data, new data that \emph{aren't} well described by a trained ML model are possibly interesting.
 Outlier-detection systems can be used to identify time intervals in which the equipment is malfunctioning.
 They can also be used to identify objects that are rare or unusual.
@@ -331,14 +338,14 @@ Many discoveries in astrophysics are discoveries of new kinds of objects, origin
 So far, ML has not been involved in any big discoveries in astronomy, but we expect this to be a productive avenue for ML in the natural sciences and astronomy in particular.
 
 \paragraph{Foreground, background, and confounder models:}
-We mentioned in \sectionname~\ref{sec:philosophy} that a natural-science theory is a combination of a fundamental, latent theory with a (usually complicated) auxiliary observation model that explains the details of the observations.
+We mentioned in \secref{sec:philosophy} that a natural-science theory is a combination of a fundamental, latent theory with a (usually complicated) auxiliary observation model that explains the details of the observations.
 The simplest part of this observation model is the model of the backgrounds, foregrounds, and confounders.
 For example, any maps of the cosmic microwave background (by the ESA \textsl{Planck} spacecraft \cite{planck_maps}, for example) will have emission from the intervening Milky Way and from radio galaxies, adding to, and distorting the maps.
 When the goal is to understand the cosmic microwave background, the investigator often doesn't need to understand these foregrounds \emph{physically}; an \emph{effective model} is sufficient.
 And indeed, all the bleeding-edge methods for this problem currently are ML methods \cite{cmb_foregrounds}.
 It doesn't matter to the questions of physical cosmology what those foregrounds \emph{mean}; and indeed with ML-based foreground removal, cosmic microwave background experiments have delivered the most precise measurements of the parameters of the cosmological model with sub-percent accuracy \cite{planck_parameters}.
+For foregrounds and backgrounds, understanding is not always necessary.
 
-This is all true: For foregrounds and backgrounds, understanding is not always necessary.
 An even stronger statement can be made here, however, in the realm of causal inference:
 Sometimes the goal is to argue that an effect is being caused by some particular cause, and there are confounding causal inputs that might be distorting or influencing the data.
 The more expressive the model used to model the confounders, the stronger the conclusions that can be made about the causation \cite{causal_inference}.
@@ -360,11 +367,12 @@ We need it for speed and scale in many contexts in many contemporary scientific 
 It is also the case that PhD students and practitioners in the natural sciences want to---or even need to---learn ML practices to have useful and transferable skills.
 ML is here, and it is here to stay.
 
-That said, there is a certain amount of hype in this area, and we are seeing scientists ``move fast and break things'' \cite{zuck} all over the place.
+That said, there is a certain amount of hype in this area, and we are seeing scientists ``move fast and break things'' all over the place.
 If anything, this \documentname{} represents a call to slow down and think more.
 ML tools are incredibly powerful, if we put them to use in the right places in the natural sciences.
+In particular, the biases we highlight in \secref{sec:bad}
 
-There is a famous ancient quotation about ``the unreasonable effectiveness of mathematics in physics'' \cite{weiner_maybe}.
+There is a famous article by Wigner about ``the unreasonable effectiveness of mathematics in the natural sciences'' \cite{wigner}.
 Mathematics has been pursued (in many cases) for abstract reasons of beauty and technical challenge, but it has ended up creating a language for many of the natural sciences.
 Similarly, we could coin a phrase about \emph{the unreasonable effectiveness of machine learning in the natural sciences}.
 It's unreasonable because ML methods were developed, engineered, and optimized to solve problems for commerce.
@@ -431,9 +439,9 @@ This algorithm makes references to objects $\xi_\eta$ and $\xi_\zeta$ which are 
     \item A $M$-dimensional feature vector $x$ called ``the data'' is generated from a Gaussian with mean $\tilde{\xi}$ and variance $0.0025$.
     \item A label $y$ called ``measured age'' is generated from a Gaussian with mean $\eta$ and variance 1.
 \end{hoggnumerate}
-The data generated this way are shown in the top panels of \figurename~\ref{fig:regression}.
+The data generated this way are shown in the top panels of \figref{fig:regression}.
 The data contain a non-trivial relationship between label $y$ (measured age) $y$ and known parameter $r$ (guiding radius).
-This relationship is shown in \figurename~\ref{fig:regression}.
+This relationship is shown in \figref{fig:regression}.
 It isn't precisely linear because of the removal of data points with latent ages $\eta$ outside the range $0<\eta<14$.
 
 We construct a three-layer multilayer perceptron (MLP) (using the scikit-learn implementation) with layer sizes of 64, 32, and 16 neurons.
@@ -442,7 +450,7 @@ The trained model takes as input features $x$ and outputs estimated labels $\hat
 The model is validated on a validation set of 2048 data points with features $x$ and labels $y$.
 The test set is a much larger set of $10^5$ data points with features $x$ and no labels.
 The model is used to make estimated labels $\hat{y}$ in the full test set.
-The validation and test labels are shown in the bottom panels of \figurename~\ref{fig:regression}.
+The validation and test labels are shown in the bottom panels of \figref{fig:regression}.
 Importantly, \emph{the training, validation, and test samples are drawn from exactly the same process}, with the same distribution in all properties.
 \begin{figure}[p!]
 \includegraphics[width=0.49\textwidth]{notebooks/data_examples.png}
@@ -454,13 +462,13 @@ Visualization of the toy regression. \textsl{Top-left:} Random examples of the d
 \end{figure}
 
 The regression-estimated labels $\hat{y}$ are related to the measured labels $y$ in the held-out validation set with a linear relationship with unit slope and zero intercept.
-The comparison to the validation data (bottom-left panel of \figurename~\ref{fig:regression}) shows that they are not precisely estimated, but there is no evidence for strong bias at the individual-object level.
+The comparison to the validation data (bottom-left panel of \figref{fig:regression}) shows that they are not precisely estimated, but there is no evidence for strong bias at the individual-object level.
 
 The true relationship between label $y$ (measured age) and known parameter $r$ (guiding radius) is estimated in a large generated data set by taking means of $y$ in bins of $r$.
-This relationship is shown in \figurename~\ref{fig:regression} with solid red circles.
-The empirical relationship between label $y$ and known parameter $r$ in the training-set data is shown in \figurename~\ref{fig:regression} with open black squares.
+This relationship is shown in \figref{fig:regression} with solid red circles.
+The empirical relationship between label $y$ and known parameter $r$ in the training-set data is shown in \figref{fig:regression} with open black squares.
 These two relationships are statistically consistent, as expected.
-The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figurename~\ref{fig:regression} with black X-shaped symbols.
+The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figref{fig:regression} with black X-shaped symbols.
 The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
 
 HOGG: TAKE A PARAGRAPH TO EXPLAIN THIS CLAIM: Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
@@ -470,7 +478,7 @@ HOGG: COMMENT OR SHOW that the bias goes down as the information in the features
 In this case, what should the investigator do---the investigator who wants to know the relationship between $y$ (age) and $r$ (guiding radius)?
 The investigator should \emph{just use the training set}.
 Transferring labels to the test set did not help, even though the test set is far larger than the training set.
-The test-set results are very precise (error bars on the X-shaped symbols cannot be visibly shown in \figurename~\ref{fig:regression}), but they are very wrong.
+The test-set results are very precise (error bars on the X-shaped symbols cannot be visibly shown in \figref{fig:regression}), but they are very wrong.
 The training-set results are less precise but unbiased; they are much closer to the truth.
 
 Indeed, none of the issues here come from out-of-distribution problems or distribution shifts.
@@ -480,7 +488,7 @@ When distribution shifts are involved (usually the labeled data are the best dat
 Related to that: The most interesting aspect of this problem is that there is no \emph{wrong} bias:
 The bias introduced from the training set is a correct bias; the training set represents a prior that accords with our beliefs about the test set.
 And yet the population-level inference is biased.
-The averaging of points shown by the X-shaped symbols in \figurename~\ref{fig:regression} is a simple misuse of the regression outputs; that point is trivial.
+The averaging of points shown by the X-shaped symbols in \figref{fig:regression} is a simple misuse of the regression outputs; that point is trivial.
 However, it is a misuse that is occurring repeatedly in astrophysics with catalogs generated by ML regressions HOGG CITE.
 
 All code (including the data-generating code) used in this toy are available under an open-source license at \url{https://github.com/davidwhogg/BadForScience}.
