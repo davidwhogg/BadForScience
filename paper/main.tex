@@ -29,7 +29,7 @@
 % Hogg typesetting issues that won't conflict with ICML
 \frenchspacing
 \newcommand{\documentname}{\textsl{Position Paper}}
-\newcommand{\draftstatus}{\textcolor{red}{Draft version 2023-12-31}}
+\newcommand{\draftstatus}{\textcolor{red}{Draft version 2024-01-02}}
 \newcommand{\sectionname}{Section}
 \newcommand{\secref}[1]{\sectionname~\ref{#1}}
 \newcommand{\figref}[1]{\figurename~\ref{#1}}
@@ -64,10 +64,6 @@
 \markboth{foo}{\textcolor{gray}{\textsf{Hogg / Is machine learning good or bad for the natural sciences? \draftstatus}}}
 \linespread{1.08}
 \raggedbottom\sloppy\sloppypar
-
-% Gross
-\newcommand{\apj}{The Astrophysical Journal}
-\newcommand{\araa}{Annual Reviews in Astronomy and Astrophysics}
 
 % Math issues
 \newcommand{\teff}{T_{\mathrm{eff}}}
@@ -240,9 +236,10 @@ In most cases, the ML is required on the engineering or execution side of projec
   \item[Making discoveries?] There is a new hope in the sciences that sufficiently trained or constrained models might lead to new insights about scientific theories or might effectively make fundamental discoveries.
   There are approaches along the direction of symbolic regression \cite{symbolic1, symbolic2}, and there are approaches along the lines of foundation models \cite{foundation1, foundation2}.
   So far this hope has borne no important new discoveries, but discoveries are not inconceivable.
+  Indeed, there is a very real sense in which the motivations underlying foundation models---finding generally useful latent representations for qualitatively diverse data---are similar to the motivations underlying theoretical physics!
 \end{description}
 This list isn't exhaustive!
-For example, it doesn't mention the use of ML to find summary statistics for the comparison of simulations and data in (say) simulation-based inferences \cite{sbi}.
+For example, it doesn't mention the use of ML to find summary statistics for the comparison of simulations and data in (say) simulation-based inferences \cite{sbi, simbig}.
 It doesn't mention using ML to emulate likelihoods or likelihood ratios \cite{biwei, likelihood_ratio}.
 The uses of ML in the natural sciences is legion.
 
@@ -263,7 +260,7 @@ It is worst when the regression is used to label a large data set or catalog or 
 and when elements of that data set are used in populations or joint analyses.
 In general, when multiple data point estimates are used jointly, the variance-induced offsets of the estimators average out but the bias-induced offsets remain fixed.
 This is a straightforward point of statistics---this is not news---but it isn't currently informing most of the practice of ML in the natural sciences.
-For example, HOGG CITES.
+For example, HOGG CITES. HOGG: NOTE that we are self-citing here; we are guilty ourselves!
 
 In principle, there are fixes for this problem that involve de-biasing the estimates.
 This is not possible in general, because there is not usually enough validation data to accurately assess the bias.
@@ -305,6 +302,10 @@ That is a classic example of \emph{confirmation bias}.
 
 Since the money involved is astronomical, there is no simple fix for this unless we plan to re-analyze all experiments using first-principles simulations, no matter what they find.
 If that is what's required to avoid the bias, then we should just analyze everything with simulations in the first place, and never use the emulators at any stage.
+
+HOGG: Note that you could solve this with fully explainable methods.
+
+HOGG: Note that you can't solve this by doing finitely many tests of the system, by, say, simulating fake data sets.
 
 \section{When is machine learning good for natural science?}\label{sec:good}
 In \secref{sec:intro} we re-phrased the question in the title as
@@ -353,7 +354,7 @@ That is, the huge capacity of ML methods can made a causal claim \emph{very cons
 One way to see this is that if the confounder model has been given every chance it possibly can have to model the effect of interest, and it cannot, then it is a stronger conclusion that the effect is caused by the cause of interest.
 This is the strategy in contemporary causal-inference projects, which make use of ML methods for these reasons \cite{bart}.
 
-A key place for this kind of causal inference has been in instrument calibration.
+A key place for this kind of causal inference in astrophysics has been in instrument calibration.
 Data taken by an instrument have signals imprinted from the physical (or biological or chemical) processes of interest, and also from the details of the measurement hardware, such as sensitivity and bias variations, and time-dependent distortions of internal mappings.
 In the end, if the results of the investigation are to have the instrument calibrated out, it makes sense to give the instrument model a lot of expressive power, and judge that model in terms of its ability to explain the data.
 Hence, instrument models and calibration are important places for ML methods, and places where the introduction of ML methods can made scientific projects more conservative and more accurate.
@@ -370,7 +371,7 @@ ML is here, and it is here to stay.
 That said, there is a certain amount of hype in this area, and we are seeing scientists ``move fast and break things'' all over the place.
 If anything, this \documentname{} represents a call to slow down and think more.
 ML tools are incredibly powerful, if we put them to use in the right places in the natural sciences.
-In particular, the biases we highlight in \secref{sec:bad}
+In particular, the biases we highlight in \secref{sec:bad} do not have fixes; in our view ML simply cannot be used in those contexts without leading to substantial scientific mistakes.
 
 There is a famous article by Wigner about ``the unreasonable effectiveness of mathematics in the natural sciences'' \cite{wigner}.
 Mathematics has been pursued (in many cases) for abstract reasons of beauty and technical challenge, but it has ended up creating a language for many of the natural sciences.
@@ -381,7 +382,7 @@ Which advertisement should I display on this web search result?
 What direction should I steer this automobile?
 How could I make a chair that looks like an avocado?
 And which online videos contain kittens?
-In some sense it is remarkable that there is \emph{any} overlap between these technologies and the things we need in scientific domains.
+In some sense it is remarkable that there is \emph{any} overlap between the technologies that solve these problems and the technologies we need in scientific domains.
 
 But that said, the industrial successes of ML can also be misleading.
 The fact that big ML models can solve countless problems in business does not mean that all areas of the natural sciences will be helped by the introduction of ML.
@@ -471,9 +472,11 @@ These two relationships are statistically consistent, as expected.
 The empirical relationship in the test-set data between the estimated label $\hat{y}$ and the known parameter $r$ in the test-set data is shown in \figref{fig:regression} with black X-shaped symbols.
 The test-set relationship is strongly biased, deviating from the true relationship at the edges of the $r$ range.
 
-HOGG: TAKE A PARAGRAPH TO EXPLAIN THIS CLAIM: Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
+HOGG: TAKE A PARAGRAPH TO EXPLAIN THIS CLAIM, and make a figure: Given the large size of the test set, the precision of the result is high: This bias in the estimated relationship is larger than 30-sigma in the worst data points.
 
-HOGG: COMMENT OR SHOW that the bias goes down as the information in the features goes up (relative to the information in the training-set distribution (the prior)).
+HOGG: COMMENT AND SHOW that the bias goes down as the information in the features goes up (relative to the information in the training-set distribution (the prior)). Add this to the new figure.
+
+HOGG COMMENT AND SHOW that nothing here depends on the ML model complexity. Add this to the new figure.
 
 In this case, what should the investigator do---the investigator who wants to know the relationship between $y$ (age) and $r$ (guiding radius)?
 The investigator should \emph{just use the training set}.
