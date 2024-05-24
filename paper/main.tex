@@ -71,7 +71,7 @@
 \newcommand{\logg}{\log g}
 \newcommand{\feh}{[\mathrm{Fe}/\mathrm{H}]}
 
-\icmltitlerunning{Is machine learning good or bad for the natural sciences?}
+\icmltitlerunning{Hogg \& Villar: Is machine learning good or bad for the natural sciences?}
 \begin{document}
 
 \twocolumn[
@@ -84,7 +84,7 @@
 \icmlaffiliation{ccpp}{Center for Cosmology and Particle Physics, Department of Physics, New York University, USA}
 \icmlaffiliation{mpia}{Max-Planck-Institut f{\"u}r Astronomie, Heidelberg, Germany}
 \icmlaffiliation{flatiron}{Flatiron Institute, New~York, USA}
-\icmlaffiliation{ams}{Department of Applied Mathematics and Statistics, Johns Hopkins University,  USA}
+\icmlaffiliation{ams}{Department of Applied Mathematics and Statistics, Johns Hopkins University, USA}
 \icmlaffiliation{minds}{Mathematical Institute for Data Science, Johns Hopkins University, USA}
 \icmlcorrespondingauthor{David W. Hogg}{david.hogg@nyu.edu}
 
@@ -134,10 +134,10 @@ For a concrete example, when the expansion of the Universe was discovered \cite{
 The discovery was important because it told us previously unknown things about the age and evolution of the Universe, and it confirmed a prediction of general relativity, which is a theory of the latent structure of space and time.
 The discovery would not have been seen as important if Hubble and Humason had instead announced that they had trained a deep multilayer perceptron that could predict the Doppler shifts of held-out extragalactic nebulae.
 
-For another example, consider the discovery (by Kepler) that the paths of the planets are ellipses, with the Sun at one focus \cite{kepler}.
+For another example, consider the discovery that the paths of the planets are ellipses, with the Sun at one focus \cite{kepler}.
 This discovery led to extremely precise predictions for data.
 It was critical to this discovery that the data be well explained by the theory.
-But that wasn’t the primary consideration that made the scientific community prefer the Keplerian model.
+But that was not the primary consideration that made the nascent scientific community prefer the Keplerian model.
 After all, the Ptolemaic model preceding Kepler made equally accurate predictions of held-out data.
 Kepler’s model was preferred because it fit in with other ideas being developed at the same time, most notably heliocentrism \cite{copernicus} and Newtonian gravity \cite{newton}.
 
@@ -149,8 +149,8 @@ This paper is a call to natural-science communities to think about it, and answe
 From the perspective of the physical sciences, our answer is ``Both.''
 
 \paragraph{Our contributions:}
-\begin{itemize}
-  \item We deliver a description of the fundamental \emph{ontology} and \emph{epistemology} of machine learning, and contrast these with the ontologies and epistemologies of the natural sciences.
+\vspace{-1ex}\begin{itemize}
+  \item We deliver a description of the fundamental \emph{ontology} and \emph{epistemology} of ML, and contrast these with the ontologies and epistemologies of the natural sciences.
   \item We elucidate two important and strong statistical biases that are being introduced to the natural sciences by some uses of ML. One is a confirmation bias that arises when simulations are replaced or augmented by emulators. Another is a more standard estimator bias that is (possibly enormously) amplified when elements of datasets produced by ML regressions are used in combination or joint or ensemble analyses. Neither of these two biases can be easily corrected.
   \item We show that there are many safe places for the use of ML methods in current natural-science practices, and places where (in the contemporary context) the use of ML methods is effectively \emph{required}. Many of these places are in the operational parts of scientific projects.
   \item We argue that in causal contexts, in which the ML method is used to model foregrounds, backgrounds, calibration parameters, or other confounders, using the most expressive ML method can deliver \emph{the most conservative approach} to the scientific problem.
@@ -178,7 +178,10 @@ For the purposes of this \documentname, we will employ a restrictive definition 
 For us, the natural sciences are the sciences that study the natural world, with the primary aim of \emph{understanding}.
 Examples include physics, chemistry, biology, Earth science, ecology, and so on.
 For our purposes, the natural sciences are about understanding observed phenomena, unifying knowledge, making predictions for new experiments and observations.
-Natural-science questions include things like: How did our Solar System form? Or how do cells differentiate as the embryo grows? Or what causes the jet stream?
+Natural-science questions include things like:
+How did our Solar System form?
+Or how do cells differentiate as the embryo grows?
+Or what causes variations in the jet stream?
 
 For the purposes of this \documentname{} we will exclude more engineering-oriented questions such as: What protein sequences might be important for the treatment of diabetes? Or where in Canada might there be new uranium deposits? Or what kinds of catalytic surfaces might help turn biomass into biofuel?
 This is a bit unfair!
@@ -203,7 +206,7 @@ In a very important sense, the ML ontology is that \emph{only the data exist}.
 In support of this point of view, here are some comments:
 Deep-learning models have enormously large internal degeneracies (combinatorial degeneracies even).
 These degeneracies are not seen as a problem, since all they do is make the latent weights less interpretable without hurting performance \cite{belkin2019reconciling, bartlett2020benign}.
-Contemporary optimization schemes are stochastic \cite{stochastic} and most models are non-convex.
+Contemporary optimization schemes are stochastic \cite{stochastic, adam} and most models are non-convex.
 The fact that it is impossible to find the global optimum---and the fact that in most contemporary models that isn't even the goal---shows that the latent parameters are not important.
 The regularization of trained models with early stopping \cite{early_stop} and dropouts \cite{dropout} demonstrate that there isn't even a goal of getting precisely to \emph{any optimum}.
 Any practitioner using a 23-layer network can trivially (and without analysis) switch to a 42-layer, despite the fact that (from a functional point of view), this might substantially change the model capacity or expressivity.
@@ -228,8 +231,7 @@ The most important discoveries in the natural sciences are discoveries of latent
 
 The mismatch of ontology (and epistemology, below) between ML and natural sciences is not unique to ML;
 many tools used in the natural sciences have limited ontologies.
-Perhaps the most extreme case is that of mathematical tools, which are based (in some sense) only on a limited set of axioms.
-Mathematics has a very limited ontology.
+Perhaps the most extreme case is that of mathematical tools, which are based (in some sense) only on a limited set of axioms; mathematics has a very limited ontology.
 ML is useful in science in a way that is analogous to other methodological tools; the point made here is that the particular and specific use of each tool ought to be matched to its ontology and epistemology.
 
 \paragraph{Epistemologies:}
@@ -303,10 +305,10 @@ One example of this is ML-based drug discovery \cite{kang2018conditional}.
 \paragraph{Outlier detection:}
 In many of the sciences, discovery of new or previously unknown phenomena or objects can be of great importance.
 A recent example in astronomy is the discovery of fast radio bursts \cite{frbs}, which started as outliers in the data taken for imaging projects and have turned out to be interesting astrophysical objects.
-Since expressive unsupervised ML methods can (with some caveats) describe accurately a complex distribution of data, they can also be used to identify (some) rare data points that are unlike any elements of the training data.
+Since expressive unsupervised ML methods can (with some caveats) describe accurately a complex distribution of data, they can also be used to identify (some) rare data points that are unlike any other elements of the training data.
 
 \paragraph{Information questions:}
-If a machine-learning method is correctly trained to predict labels $y$ from data $x$, and it succeeds (better than random, say), then it shows that data $x$ contains information within it about labels $y$.
+If a ML method is correctly trained to predict labels $y$ from data $x$, and it succeeds (better than random, say), then it shows that data $x$ contain information within it about labels $y$.
 Regressions thus can be used to make one-sided measurements of quantities of information-theoretic interest.
 
 \paragraph{Making discoveries?}
@@ -337,8 +339,7 @@ This problem is demonstrated with a toy example in \appendixname~\ref{app:toy}.
 It is worst when the regression is used to label a large data set or catalog or sample of data,
 and when elements of that data set are used in populations or joint or ensemble analyses.
 In general, when multiple data point estimates are used jointly, the variance-induced offsets of the estimators average out but the bias-induced offsets remain fixed.
-This is a straightforward point of statistics---this is not news---but it isn't currently informing most of the practice of ML in the natural sciences, where many catalogs and public data products are being produced with ML regressions.
-% AFTER ICML submission: For example, HOGG CITES. HOGG: NOTE that we are self-citing here; we are guilty ourselves!
+This is a straightforward point of statistics---this is not news---but it isn't currently informing most of the practice of ML in the natural sciences, where many catalogs and public data products are being produced with ML regressions \cite{spectrophotometric, leung, aspgap}, sometimes even by us.
 
 In principle, there might be fixes for this problem that involve de-biasing the estimates.
 This is not possible in general, because there is not usually enough validation data to accurately assess the bias.
@@ -347,15 +348,10 @@ In Bayesian language, this problem is closely related to the point that when dat
 Likelihoods are not affected by population-level biases.
 Likelihoods can produce unbiased point estimates.
 Likelihood-based estimators are not usually the lowest-risk estimators, but they can be low- or zero-bias estimators.
-The outputs of regressions are more like posterior-based estimators, affected by the implicit prior set by the training set.
+The outputs of regressions, on the other hand, are more like posterior-based estimators, affected by the implicit prior set by the training set.
 When they are combined, the implicit prior gets amplified.
 Most ML regressions are not capable of generating or emulating likelihoods.
-There are interesting approaches in development to replace standard regressions with generative models that can produce likelihoods \cite{cannon, biwei, likelihood_ratio}.
-
-Importantly, there is nothing unique to ML about low-risk estimators being biased, or that the use of biased estimators in populations analyses is problematic.
-These are standard properties of estimators.
-The unique thing to ML is that standard ML regressions almost always produce biased estimators.
-Given the objective functions (cost functions) in use in ML regressions, this is a feature of ML, not a bug.
+There are interesting approaches in development to replace standard regressions with generative models that can produce likelihoods \cite{cannon, likelihood_ratio, biwei}.
 
 Finally we note---and demonstrate in \appendixname~\ref{app:toy}---that none of these problems of bias arise from out-of-sample generalization or distribution-shift problems, or even model mis-specification.
 Distribution shifts (where the test data are drawn from a different distribution than the training data) and model mis-specification (where the model doesn't have the expressivity to explain the data) just tend to make these biases even worse.
@@ -365,7 +361,7 @@ In many fields in the natural sciences, the fundamental theoretical model is \em
 These simulations are usually being asked to handle large ranges of length scales and time scales, so they are generally getting larger and more computationally demanding each year.
 Quantitative comparison of data with simulations usually involves running enormous numbers of simulations \cite{abc}, because simulations have to span ranges of fundamental parameters and initial conditions and so on.
 Thus these simulation requirements are getting very large for contemporary research projects.
-For example, in cosmology, contemporary experiments could easily consume the total computing capacity of the United States.
+For example, in cosmology, contemporary experiments could easily consume the total scientific computing capacity of the United States.
 Hence we turn to emulators---trained ML regressions that have learned the input-output relationship of a simulation, or the relationship between an inexpensive low-resolution simulation and an expensive high-resolution experiment.
 Emulators can make computationally impossible projects possible.
 
@@ -406,7 +402,7 @@ That is, verification is not just more expensive, but also more important, when 
 Where, in the natural sciences, can you use models in which you don't fully understand the latent parameters and structures?
 The answer is: You can use them for the parts of your scientific project or experiment or analysis that \emph{you don't need to understand}.
 We have colleagues who believe that there is no such part; some scientists believe that you must understand deeply every part of your scientific toolkit.
-We disagree: For an example in physics, we use infrared HgCdTe detectors to make extremely precise measurements of intensity fields, without understanding in detail the solid-state physics that makes these devices efficient, linear detectors of photons.
+We disagree: For an example in physics, we use infrared HgCdTe detectors \cite{hgcdte} to make extremely precise measurements of intensity fields, without understanding in detail the solid-state physics that makes these devices efficient, linear detectors of photons.
 There are many parts of a scientific project that must work well, but which do not need to be carefully controlled or understood.
 They have to be testable and tested, but they don't have to be fully understood.
 
@@ -431,7 +427,7 @@ Since ML methods are expressive, and trained to fit the data, new data that \emp
 Outlier-detection systems can be used to identify time intervals in which the equipment is malfunctioning.
 They can also be used to identify objects that are rare or unusual.
 Many discoveries in astrophysics are discoveries of new kinds of objects, originally found as data outliers \cite{quasars, voorwerp}.
-So far, ML has not been involved in any big discoveries in astronomy, but we expect this to be a productive avenue for ML in the natural sciences.
+So far, ML has not been involved in any big discoveries in astronomy, but we expect this to be a productive avenue for ML in the natural sciences (but see \citealt{contardo}).
 
 \paragraph{Foreground, background, and confounder models:}
 We mentioned in \secref{sec:philosophy} that a natural-science theory is a combination of a fundamental, latent theory with a (usually complicated) auxiliary observation model that explains the details of the observations.
@@ -452,7 +448,7 @@ This is the strategy in contemporary causal-inference projects, which make use o
 A key place for this kind of causal inference in astrophysics has been in instrument calibration.
 Data taken by an instrument have signals imprinted from the physical (or biological or chemical) processes of interest, and also from the details of the measurement hardware, such as sensitivity and bias variations, and time-dependent distortions of internal mappings.
 In the end, if the results of the investigation are to have the instrument calibrated out, it makes sense to give the instrument model a lot of expressive power, and judge that model in terms of its ability to explain the data.
-Hence, instrument models and calibration are important places for ML methods, and places where the introduction of ML methods can made scientific projects more conservative and more accurate.
+Hence, instrument models and calibration are important places for ML methods, places where the ontology and epistemology of ML are well matched to the objectives, and places where the introduction of ML can made scientific projects more conservative and more accurate.
 One very early example of this in astronomy was the calibration of the \textsl{Sloan Digital Sky Survey} imaging data \cite{ubercalibration}.
 
 \section{Discussion}\label{sec:discussion}
@@ -468,11 +464,6 @@ Of course there is a certain amount of hype in this area, and we are seeing scie
 If anything, this \documentname{} represents a call to slow down and think more.
 ML tools are incredibly powerful, if we put them to use in the right places in the natural sciences.
 In particular, the biases we highlight in \secref{sec:bad} do not have fixes; in our view ML simply cannot be used in those contexts without leading to substantial scientific mistakes.
-
-In some ways it is surprising that ML has been useful in the natural sciences, since much of the development of ML methods has been in commercial decision-making applications, such as delivering content to users.
-These commercial applications often show a reasonable match between the implicit philosophy of ML and the goals of the commercial ML systems (because, say, serving data to new users is like predicting held-out test data).
-That said, there are connections between commercial applications and scientific applications.
-For example, on the commerce side, there can be important and manageable (and even interpretable) distribution shifts, and, on the scientific side, there are contexts in which the system really will see more of the same (for example, trigger systems in particle-physics colliders).
 
 There is a famous article by Wigner about ``the unreasonable effectiveness of mathematics in the natural sciences'' \cite{wigner}.
 Mathematics has been pursued (in many cases) for abstract reasons of beauty and technical challenge, but it has ended up creating a language for many of the natural sciences.
