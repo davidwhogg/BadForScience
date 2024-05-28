@@ -1,12 +1,8 @@
-% This document is Copyright 2024 the author(s).
+% This document is Copyright 2024 the authors.
 % It is part of the BadForScience project https://github.com/davidwhogg/BadForScience .
 
 % To do:
-% ----------------------------
-% - Find the right place to cite the units paper.
-% - audit bibliography; make sure arXiv references in the reference list are consistent? Also capitalization!
-% - Update appendix with feedback from Vedant Chandra (email). In particular, modify model complexity and information content.
-% - Should there be another BAD thing, which is about statistics for comparison of simulations and data? This is a great one; consider after ICML submission.
+% HOGG: address the comment that standard regression is not ML. (emphasized in yellow comment)
 % - Publish on the arXiv.
 
 % Style notes:
@@ -98,8 +94,8 @@
   Machine learning (ML) methods are having a huge impact across all of the sciences.
   However, ML has a strong ontology---in which only the data exist---and a strong epistemology---in which a model is considered good if it performs well on held-out training data.
   These philosophies are in strong conflict with both standard practices and key philosophies in the natural sciences.
-  Here we identify some locations for ML in the natural sciences at which the ontology and epistemology are valuable.
-  For example, when an expressive machine-learning model is used in a causal inference to represent the effects of confounders, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of ML can make the results more trustworthy.
+  Here, we identify some locations for ML in the natural sciences at which the ontology and epistemology are valuable.
+  For example, when an expressive machine learning model is used in a causal inference to represent the effects of confounders, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of ML can make the results more trustworthy.
   We also show that there are contexts in which the introduction of ML introduces strong, unwanted statistical biases.
   For one, when ML models are used to emulate physical (or first-principles) simulations, they introduce strong confirmation biases.
   For another, when expressive regressions are used to label datasets, those labels cannot be used in downstream joint or ensemble analyses without taking on uncontrolled biases.
@@ -169,9 +165,9 @@ In addition to methods like convolutional neural networks \cite{cnn}, multi-laye
 Feel free to personally take any more restrictive definition.
 Our comments will apply to everything in the larger class.
 
-As broad as this definition is, it does not include standard model fitting or parameter estimation.
-These tasks are usually performed in the context of a well-specified model, where the model does not qualitatively change as more data arrive, and the quantitative improvements to the parameter estimates only scale as something like the square root of the size of the data set.
-Standard model fitting and parameter estimation are not ML in our sense.
+As broad as this definition is, it does not include standard model fitting or parameter estimation with a well-specified (first-principles, say) model.
+These tasks are usually performed in the context of a rigid model, with far fewer parameters than data points, in which the model does not qualitatively change as more data arrive, and the quantitative improvements to the parameter estimates only scale as something like the square root of the size of the data set.
+Standard model fitting and parameter estimation in the enormously under-parameterized regime are not ML in our sense.
 
 \paragraph{What is natural science?}
 For the purposes of this \documentname, we will employ a restrictive definition of natural science.
@@ -263,6 +259,13 @@ In physics for example, a model---which, as we note, is almost always a model of
 It ought to explain data in multiple domains, and it must connect in natural ways to other theories or principles (such as conservation laws and invariances) that are strongly confirmed themselves.
 (It is worthy of note here that a successful theory in the natural sciences is usually a combination of a more fundamental theory of the latents, and a less fundamental or auxiliary observation model, which explains how the latents appear in or affect the observable data.)
 General relativity \cite{gr} was widely accepted by the community (and very quickly; \citealt{peebles}) not primarily because it explained anomalous data (although it did explain some); it was adopted because, in addition to explaining (a tiny bit of new) data, it also had good structure, it resolved conceptual paradoxes in the pre-existing theory of gravity, and it was consistent with emerging ideas of field theory and geometry.
+
+A recent position piece \citep{donoho2024data} points out that an important aspect of ML's epistemology might be its (aspirational) \emph{reproducibility}.
+Namely, many contributions to the field permit anyone to reproduce the results and build on top of them; the idea is that
+this aspect of ML is part of the reason that the field moves so fast.
+In contrast, it is often argued that the sciences face a reproducibility crisis \cite{baker2016reproducibility};
+the (only) positive spin to put on that is that reproducibility in the natural sciences is not nearly as straightforward as it is in ML.
+This reproducibility discussion is slightly out-of-scope here; we refer the reader to Donoho's piece and the follow-up commentaries (for example, \citealt{Freire2024Singularity}, \citealt{Milanfar2024Data}).
 
 \section{Why do we need machine learning in the natural sciences?}\label{sec:why}
 In this \sectionname{} we give some idea of how and why ML has had such a big impact in the natural sciences, and how and why many scientific projects require ML technologies. 
@@ -500,7 +503,7 @@ Finally, we make a philosophical comment:
 In the natural sciences, the same phenomena can usually be explained with many qualitatively different theories; theories are not usually unique (eg, \citealt{hogg, peebles}).
 In the same way (as we noted above), ML models contain massive degeneracies, and even different architectures can lead to near-identical predictions after training on the same training data.
 Does this lead to a philosophical connection between ML and the natural sciences?
-We have argued elsewhere (op.cit) that the degeneracies in the natural sciences undermine \emph{realism} or the belief in the literal truth of the latent theories or objects of physics.
+We have argued previously \cite{hogg} that the degeneracies in the natural sciences undermine \emph{realism} or the belief in the literal truth of the latent theories or objects of physics.
 There is an argument to be made that maybe the natural sciences could be better off if they moved at least slightly closer to the ML points of view on ontology and epistemology.
 In the long run, the data are more stable than the fundamental theories of physics:
 Newtonian gravity was replaced with general relativity, and we expect general relativity to be replaced by some kind of quantum gravitational theory.
