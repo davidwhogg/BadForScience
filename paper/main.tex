@@ -39,7 +39,7 @@
 % \usepackage[accepted]{icml2024}
 
 % Hogg typesetting issues that won't conflict with ICML
-\frenchspacing
+\raggedbottom\frenchspacing
 \newcommand{\documentname}{\textsl{Position Paper}}
 \renewcommand{\paragraph}[1]{\noindent\par\textbf{#1}}
 \newcommand{\sectionname}{Section}
@@ -89,19 +89,19 @@
 \vskip 0.3in
 ] % For the arXiv version, comment out this square bracket
 
-\printAffiliationsAndNotice{}
 \begin{abstract}
   Machine learning (ML) methods are having a huge impact across all of the sciences.
   However, ML has a strong ontology---in which only the data exist---and a strong epistemology---in which a model is considered good if it performs well on held-out training data.
   These philosophies are in strong conflict with both standard practices and key philosophies in the natural sciences.
-  Here, we identify some locations for ML in the natural sciences at which the ontology and epistemology are valuable.
+  Here we identify some locations for ML in the natural sciences at which the ontology and epistemology are valuable.
   For example, when an expressive machine learning model is used in a causal inference to represent the effects of confounders, such as foregrounds, backgrounds, or instrument calibration parameters, the model capacity and loose philosophy of ML can make the results more trustworthy.
   We also show that there are contexts in which the introduction of ML introduces strong, unwanted statistical biases.
-  For one, when ML models are used to emulate physical (or first-principles) simulations, they introduce strong confirmation biases.
+  For one, when ML models are used to emulate physical (or first-principles) simulations, they amplify confirmation biases.
   For another, when expressive regressions are used to label datasets, those labels cannot be used in downstream joint or ensemble analyses without taking on uncontrolled biases.
   The question in the title is being asked of all of the natural sciences; that is, we are calling on the scientific communities to take a step back and consider the role and value of ML in their fields; the (partial) answers we give here come from the particular perspective of physics.
 \end{abstract}
 % ] % For the arXiv version, uncomment this square bracket
+\printAffiliationsAndNotice{}
 
 \section{Introduction}\label{sec:intro}
 It is an understatement to say that machine learning (ML) is having a big impact across the sciences.
@@ -162,8 +162,8 @@ For us, a method is ML if its \emph{capability increases substantially as it see
 In some sense this definition could be seen as true of any measurement process, since measurements improve as the data improve. 
 If we are going to be more specific, we'd like the model precision or capability to improve faster (in some sense) than (something like) the square root of the increment in data.
 
-This definition is broad:
-In addition to methods like convolutional neural networks \cite{cnn}, multi-layer perceptrons, and transformers \cite{transformer}, it includes large linear regressions, gaussian processes \cite{gp}, support-vector machines \cite{svm}, principal components analysis \cite{pca}, kernel density estimates \cite{kde}, and even some kinds of multilayer or hierarchical models \cite{multilevel}; indeed almost any models in any current ML textbooks (eg, \citealt{ml_book1, ml_book2}).
+This definition is broad, perhaps controversially broad:
+In addition to methods like convolutional neural networks \cite{cnn}, multi-layer perceptrons, and transformers \cite{transformer}, it includes large linear regressions, Gaussian processes \cite{gp}, support-vector machines \cite{svm}, principal components analysis \cite{pca}, kernel density estimates \cite{kde}, and even some kinds of multilayer or hierarchical models \cite{multilevel}; indeed almost any models in any current ML textbooks (eg, \citealt{ml_book1, ml_book2}).
 Feel free to personally take any more restrictive definition.
 Our comments will apply to everything in the larger class.
 
@@ -356,7 +356,7 @@ Likelihood-based estimators are not usually the lowest-risk estimators, but they
 The outputs of regressions, on the other hand, are more like posterior-based estimators, affected by the implicit prior set by the training set.
 When they are combined, the implicit prior gets amplified.
 Most ML regressions are not capable of generating or emulating likelihoods.
-There are interesting approaches in development to replace standard regressions with generative models that can produce likelihoods \cite{cannon, likelihood_ratio, biwei}.
+There are interesting approaches in development to replace standard regressions with generative models that can produce likelihoods \cite{cannon, likelihood_ratio, sequential, biwei}.
 
 Finally we note---and demonstrate in \appendixname~\ref{app:toy}---that none of these problems of bias arise from out-of-sample generalization or distribution-shift problems, or even model mis-specification.
 Distribution shifts (where the test data are drawn from a different distribution than the training data) and model mis-specification (where the model doesn't have the expressivity to explain the data) just tend to make these biases even worse.
@@ -394,7 +394,7 @@ First of all, such tests are expensive.
 Second of all, in many cases (and in cosmology especially), the phase space of random initial conditions is so large that it is impossible to span or cover it in any finite set of tests.
 Testing is good! But complete testing is impossible.
 
-Finally, we note that one objection to this confirmation-bias point is that perhaps it exists just as strongly for any simulation-based inference?
+Finally, we note that one objection to this confirmation-bias point is that perhaps it exists just as strongly for any simulation-based inference (such as approximate bayesian computation; \citealt{abc})?
 After all, simulations are expensive, so the full suite of them probably can't be affordably repeated.
 There are two responses to this objection.
 The first is that if the emulators work---that is, if they greatly reduce the cost of the inference---then the emulators have enormously increased the cost difference (or cost factor) between the inference and any re-analysis using physics-based simulations.
@@ -497,7 +497,7 @@ Whether good or bad, it is interesting to us that publishing in ML is very diffe
 Given everything we have said here, what are the ways forward for the natural sciences?
 ML is critical in many projects; how do we make sure it is doing what we want it to do?
 Our view is that the promising directions include imposing physically motivated mathematical structure into the design or regularization of the ML models.
-This includes symmetries, conservation laws, and constraints \cite{bronstein2021geometric, villar2023towards}, but also ODE/PDE solvers \cite{karniadakis2021physics}, dynamic programming modules \cite{xu2020can}, and other established mathematical tools.
+This includes symmetries, conservation laws, and constraints \cite{bronstein2021geometric, villar2023towards}, but also ODE and PDE solvers \cite{karniadakis2021physics}, dynamic programming modules \cite{xu2020can}, and other established mathematical tools.
 The research direction that looks towards explainability, interpretability \cite{interpretable}, and trustworthiness \cite{kearns2019ethical} is also fundamental to the development of ML methods for the physical sciences.
 These approaches can increase natural scientists’ confidence in ML tools, and also perhaps expand their ontologies and epistemologies.
 
@@ -527,7 +527,11 @@ for conversations over the years related to these arguments, and
   Alex Jiang (CUNY),
   Charles Margossian (Flatiron),
   Rix,
+  Ilya Shpitser (JHU),
   Kate Storey-Fisher (DIPC),
+  Jeremias Sulam (JHU),
+  Jesse Thaler (MIT),
+  Sebastian Wagner-Carena (Flatiron),
   Kaze Wong (Flatiron), and
   our four anonymous ICML reviewers
 for valuable comments on this particular manuscript.
@@ -571,7 +575,7 @@ This algorithm makes references to objects $\xi_\eta$ and $\xi_\zeta$ which are 
     \item A label $y$ called ``measured age'' is generated from a Gaussian with mean $\eta$ and variance 1.
 \end{hoggnumerate}
 The data generated this way are shown in the top panels of \figref{fig:regression}.
-The data contain a non-trivial relationship between label $y$ (measured age) $y$ and known parameter $r$ (guiding radius).
+The data contain a non-trivial relationship between label $y$ (measured age) and known parameter $r$ (guiding radius).
 This relationship is shown in \figref{fig:regression}.
 It isn't precisely linear because of the removal of data points with latent ages $\eta$ outside the range $0<\eta<14$.
 
